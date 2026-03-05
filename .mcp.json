@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "0": {
+      "command": "npx",
+      "type": "stdio",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-playwright"
+      ]
+    },
+    "context7": {
+      "command": "npx -y @upstash/context7-mcp",
+      "type": "stdio",
+      "args": []
+    }
+  }
+}

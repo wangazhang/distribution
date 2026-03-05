@@ -1,0 +1,155 @@
+{
+  "userInfo": {
+    "id": 290,
+    "nickname": "用户622496",
+    "avatar": "https://cdn.example.com/b24f46ba701d48e74536cb61e6c649a85ee9ff22fee8906b3bd54805f55191b8.jpeg",
+    "mobile": null,
+    "sex": 0,
+    "point": 0,
+    "experience": 0,
+    "level": null,
+    "brokerageEnabled": null
+  },
+  "userStats": {
+    "allCount": 1,
+    "unpaidCount": 1,
+    "undeliveredCount": 0,
+    "deliveredCount": 0,
+    "uncommentedCount": 0,
+    "afterSaleCount": 0
+  },
+  "earnings": {
+    "yesterdayPrice": 0,
+    "withdrawPrice": 0,
+    "brokeragePrice": 0,
+    "frozenPrice": 0,
+    "firstBrokerageUserCount": 1,
+    "secondBrokerageUserCount": 0
+  },
+  "materialList": {
+    "list": [
+      {
+        "id": 641,
+        "name": "ECM人胶原产品",
+        "image": "https://cdn.example.com/static/pic/product/1.png",
+        "stock": 8,
+        "unit": "件"
+      },
+      {
+        "id": 644,
+        "name": "ECM人胶原产品-原料",
+        "image": "https://cdn.example.com/static/pic/product/2.png",
+        "stock": 6,
+        "unit": "件"
+      },
+      {
+        "id": 645,
+        "name": "滚针",
+        "image": "https://cdn.example.com/static/pic/product/3.png",
+        "stock": 4,
+        "unit": "个"
+      },
+      {
+        "id": 647,
+        "name": "ECM面膜",
+        "image": "https://cdn.example.com/static/pic/product/4.png",
+        "stock": 3,
+        "unit": "盒"
+      }
+    ],
+    "total": 4,
+    "pageSize": 10,
+    "pageNo": 1
+  },
+  "materialRecords": {
+    "actionTypeMap": {
+      "0": "获得",
+      "1": "使用"
+    },
+    "sourceTypeMap": {
+      "0": "订单获得",
+      "1": "活动赠送",
+      "2": "手动添加"
+    },
+    "list": [
+      {
+        "id": 1001,
+        "material_id": 641,
+        "material_name": "ECM人胶原产品",
+        "action_type": 0,
+        "action_type_text": "获得",
+        "amount": 2,
+        "source_type": 0,
+        "source_type_text": "订单获得",
+        "source_desc": "订单编号: 2023060112345",
+        "before_amount": 6,
+        "after_amount": 8,
+        "action_date": "2023-06-01",
+        "unit": "件"
+      },
+      {
+        "id": 1002,
+        "material_id": 90000,
+        "material_name": "ECM人胶原产品-原料",
+        "action_type": 0,
+        "action_type_text": "获得",
+        "amount": 3,
+        "source_type": 1,
+        "source_type_text": "活动赠送",
+        "source_desc": "新人活动赠送",
+        "before_amount": 3,
+        "after_amount": 6,
+        "action_date": "2023-06-02",
+        "unit": "件"
+      },
+      {
+        "id": 1003,
+        "material_id": 645,
+        "material_name": "滚针",
+        "action_type": 1,
+        "action_type_text": "使用",
+        "amount": 1,
+        "source_type": 2,
+        "source_type_text": "手动添加",
+        "source_desc": "客户体验消耗",
+        "before_amount": 5,
+        "after_amount": 4,
+        "action_date": "2023-06-03",
+        "unit": "个"
+      },
+      {
+        "id": 1004,
+        "material_id": 647,
+        "material_name": "ECM面膜",
+        "action_type": 0,
+        "action_type_text": "获得",
+        "amount": 5,
+        "source_type": 2,
+        "source_type_text": "手动添加",
+        "source_desc": "补货",
+        "before_amount": 3,
+        "after_amount": 8,
+        "action_date": "2023-06-04",
+        "unit": "盒"
+      },
+      {
+        "id": 1005,
+        "material_id": 647,
+        "material_name": "ECM面膜",
+        "action_type": 1,
+        "action_type_text": "使用",
+        "amount": 5,
+        "source_type": 0,
+        "source_type_text": "订单获得",
+        "source_desc": "客户购买",
+        "before_amount": 8,
+        "after_amount": 3,
+        "action_date": "2023-06-05",
+        "unit": "盒"
+      }
+    ],
+    "total": 5,
+    "pageSize": 10,
+    "pageNo": 1
+  }
+}

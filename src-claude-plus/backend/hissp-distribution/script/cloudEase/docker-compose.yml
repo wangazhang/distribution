@@ -1,0 +1,35 @@
+services:
+  distribution-server:
+#    image: bitnami/java:21
+    image:  openjdk:21-ea-oraclelinux8
+    container_name: ${APP_NAME:-java-app}
+    restart: unless-stopped
+    volumes:
+      - ${JAR_PATH:-./}:/app
+    working_dir: /app
+    command: java -jar ${JAR_FILE:-application.jar} --spring.profiles.active=${SPRING_PROFILES:-prod} --server.port=${PORT:-8080}
+    ports:
+      - "${PORT:-8080}:${PORT:-8080}"
+    environment:
+      - JAVA_TOOL_OPTIONS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Shanghai
+      - TZ=Asia/Shanghai
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES:-prod}
+      - MYSQL_HOST=host.docker.internal
+      - REDIS_HOST=host.docker.internal
+      - ROCKETMQ_HOST=host.docker.internal
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:${PORT:-8080}/actuator/health", "||", "exit", "0"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+        max-file: 3
+    # 在macOS和Windows上使用host.docker.internal
+    # 在Linux上需要添加extra_hosts
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    network_mode: "bridge"

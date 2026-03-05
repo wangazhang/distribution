@@ -1,0 +1,10 @@
+serverAddr = "203.0.113.17"
+serverPort = 7000
+auth.token = "CHANGE_ME_FRP_TOKEN"
+
+[[proxies]]
+name = "hissp-local"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 48080
+remotePort = 48080

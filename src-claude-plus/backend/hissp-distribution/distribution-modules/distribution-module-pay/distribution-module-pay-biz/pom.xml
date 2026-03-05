@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.hissp</groupId>
+        <artifactId>distribution-module-pay</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>distribution-module-pay-biz</artifactId>
+    <packaging>jar</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>
+        pay 模块，我们放支付业务，提供业务的支付能力。
+        例如说：商户、应用、支付、退款等等
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-module-pay-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <!-- 业务组件 -->
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-spring-boot-starter-biz-pay</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-spring-boot-starter-biz-tenant</artifactId>
+        </dependency>
+
+        <!-- Web 相关 -->
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- DB 相关 -->
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-spring-boot-starter-mybatis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-spring-boot-starter-redis</artifactId>
+        </dependency>
+
+        <!-- Job 定时任务相关 -->
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-spring-boot-starter-job</artifactId>
+        </dependency>
+
+        <!-- MQ 消息队列相关 -->
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-spring-boot-starter-mq</artifactId>
+        </dependency>
+
+        <!-- MB 模块 API，用于使用消息类 -->
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-module-mb-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <!-- Member 模块 API：用于读取用户身份信息 -->
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-module-member-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+
+        <!-- Test 测试相关 -->
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- 工具类相关 -->
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-spring-boot-starter-excel</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- 启用注解处理器：Lombok + MapStruct + Spring Boot Config Processor -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                            <version>${spring.boot.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

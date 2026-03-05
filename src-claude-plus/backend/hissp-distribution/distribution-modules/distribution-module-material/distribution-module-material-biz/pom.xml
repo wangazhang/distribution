@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>distribution-module-material</artifactId>
+        <groupId>com.hissp</groupId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>distribution-module-material-biz</artifactId>
+    <packaging>jar</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>
+        material 模块 biz，- business 业务逻辑
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-module-material-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-module-member-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-module-system-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-module-trade-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-module-product-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-spring-boot-starter-excel</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+
+
+
+        <!-- Spring 核心 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!-- Web 相关 -->
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- DB 相关 -->
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-spring-boot-starter-mybatis</artifactId>
+        </dependency>
+
+        <!-- Test 测试 -->
+        <dependency>
+            <groupId>com.hissp</groupId>
+            <artifactId>distribution-spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

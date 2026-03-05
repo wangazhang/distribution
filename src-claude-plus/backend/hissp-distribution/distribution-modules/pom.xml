@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>distribution-modules</artifactId>
+    <packaging>pom</packaging>
+    <version>${revision}</version>
+    <name>${project.artifactId}</name>
+    <parent>
+        <groupId>com.hissp</groupId>
+        <artifactId>hissp-distribution</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <modules>
+        <!-- 各种 module 拓展 -->
+        <module>distribution-module-system</module>
+        <module>distribution-module-infra</module>
+        <module>distribution-module-member</module>
+<!--        <module>distribution-module-bpm</module>-->
+<!--        <module>distribution-module-report</module>-->
+        <module>distribution-module-mp</module>
+        <module>distribution-module-pay</module>
+        <module>distribution-module-mall</module>
+<!--        <module>distribution-module-crm</module>-->
+<!--        <module>distribution-module-erp</module>-->
+        <module>distribution-module-mb</module>
+        <module>distribution-module-material</module>
+    </modules>
+
+</project>

@@ -1,0 +1,6 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 安全漏洞反馈
+    url: mailto:security@example.com
+    about: 请勿在公开 Issue 披露安全漏洞细节
+

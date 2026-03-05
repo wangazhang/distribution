@@ -1,0 +1,13 @@
+# 忽略src 下的文件
+src/
+/.idea
+./.idea
+/src-claude-plus/backend/payDemo/
+/.idea/
+
+# local tools and IDE metadata
+.codex/
+.claude/
+.idea/
+**/.idea/
+**/.DS_Store

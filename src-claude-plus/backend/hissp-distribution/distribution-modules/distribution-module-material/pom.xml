@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>distribution-modules</artifactId>
+        <groupId>com.hissp</groupId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>distribution-module-material</artifactId>
+    <packaging>pom</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>
+        material 模块，我们放通用物料。
+        例如说：物料定义、物料账本、物料流水、物料转化规则等等
+    </description>
+
+    <modules>
+        <module>distribution-module-material-api</module>
+        <module>distribution-module-material-biz</module>
+    </modules>
+
+</project>

@@ -1,0 +1,1 @@
+sqlplus -s CHANGE_ME_ORACLE_APP_USER/CHANGE_ME_ORACLE_APP_PASSWORD@//localhost/XEPDB1 @/tmp/schema.sql

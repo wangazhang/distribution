@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>图标预览 - ColorUI IconFont</title>
+    <style>
+      /* 添加 ui-num 字体定义 */
+      @font-face {
+        font-family: 'ui-num';
+        src: url('data:application/x-font-ttf;base64,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')
+          format('woff2');
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      /* 数字字体样式 */
+      .ui-number {
+        font-family: 'ui-num', monospace;
+        font-size: 1.2em;
+        color: #4f46e5;
+      }
+      @font-face {
+        font-family: 'colorui';
+        src: url('data:application/x-font-woff2;charset=utf-8;base64,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')
+          format('woff2');
+      }
+
+      /* 全局样式 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      /* 头部 */
+      header {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      header p {
+        font-size: 1.1em;
+        opacity: 0.9;
+      }
+
+      /* 统计信息 */
+      .stats {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 20px;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 2em;
+        font-weight: bold;
+        color: #fbbf24;
+      }
+
+      .stat-label {
+        font-size: 0.9em;
+        opacity: 0.8;
+      }
+
+      /* 搜索区域 */
+      .search-section {
+        padding: 30px;
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .search-container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 15px 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+      }
+
+      /* 图标网格 */
+      .icons-section {
+        padding: 30px;
+      }
+
+      .icons-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .icon-item {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        border: 2px solid #e2e8f0;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .icon-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        border-color: #4f46e5;
+      }
+
+      .icon-preview {
+        font-size: 3em;
+        color: #4f46e5;
+        margin-bottom: 15px;
+        font-family: 'colorui';
+        display: block;
+      }
+
+      .icon-name {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      .icon-unicode {
+        color: #6b7280;
+        font-size: 12px;
+        font-family: 'Courier New', monospace;
+        margin-bottom: 10px;
+      }
+
+      .copy-btn {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .copy-btn:hover {
+        transform: scale(1.05);
+      }
+
+      .copy-btn.copied {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      }
+
+      /* 数字展示区域样式 */
+      .number-showcase {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .number-demo-item {
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .number-demo-item:hover {
+        border-color: #4f46e5;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .number-title {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 12px;
+        font-size: 14px;
+      }
+
+      .number-display {
+        font-size: 1.5em;
+        color: #4f46e5;
+        font-weight: 500;
+        letter-spacing: 1px;
+      }
+
+      /* 分类标签 */
+      .category-tags {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .category-tag {
+        background: #f1f5f9;
+        color: #64748b;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .category-tag:hover {
+        background: #e2e8f0;
+      }
+
+      .category-tag.active {
+        background: #4f46e5;
+        color: white;
+        border-color: #4f46e5;
+      }
+
+      /* 无结果提示 */
+      .no-results {
+        text-align: center;
+        padding: 60px 20px;
+        color: #6b7280;
+      }
+
+      .no-results-icon {
+        font-size: 4em;
+        margin-bottom: 20px;
+        opacity: 0.3;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 768px) {
+        .icons-grid {
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+          gap: 15px;
+        }
+
+        header h1 {
+          font-size: 2em;
+        }
+
+        .stats {
+          gap: 20px;
+        }
+
+        .icon-preview {
+          font-size: 2em;
+        }
+      }
+
+      /* 加载动画 */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .icon-item {
+        animation: fadeIn 0.5s ease;
+      }
+
+      /* 提示消息 */
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: #10b981;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        display: none;
+        z-index: 1000;
+        animation: slideInRight 0.3s ease;
+      }
+
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🎨 ColorUI IconFont 图标库</h1>
+        <p>项目 ID: 2620914 | 包含 42 个精美图标</p>
+        <div class="stats">
+          <div class="stat-item">
+            <div class="stat-number" id="totalIcons">42</div>
+            <div class="stat-label">图标总数</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="visibleIcons">42</div>
+            <div class="stat-label">当前显示</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="categoriesCount">7</div>
+            <div class="stat-label">分类数量</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number ui-number">123</div>
+            <div class="stat-label">UI-Num 字体</div>
+          </div>
+        </div>
+      </header>
+
+      <section class="search-section">
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-input"
+            id="searchInput"
+            placeholder="搜索图标名称或功能... (例如: 搜索、添加、删除)"
+          />
+          <div class="category-tags" id="categoryTags">
+            <div class="category-tag active" data-category="all">全部</div>
+            <div class="category-tag" data-category="action">操作类</div>
+            <div class="category-tag" data-category="status">状态类</div>
+            <div class="category-tag" data-category="navigation">导航类</div>
+            <div class="category-tag" data-category="form">表单类</div>
+            <div class="category-tag" data-category="ui">界面类</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="icons-section">
+        <h3 style="margin-bottom: 20px; color: #4f46e5; font-size: 1.5em"
+          >🔤 ColorUI 图标 (42个)</h3
+        >
+        <div class="icons-grid" id="iconsGrid">
+          <!-- 图标项目将通过 JavaScript 动态生成 -->
+        </div>
+        <div class="no-results" id="noResults" style="display: none">
+          <div class="no-results-icon">🔍</div>
+          <h3>没有找到匹配的图标</h3>
+          <p>请尝试其他搜索关键词</p>
+        </div>
+      </section>
+
+      <!-- UI-Num 数字字体展示区域 -->
+      <section class="icons-section" style="border-top: 2px solid #e2e8f0">
+        <h3 style="margin-bottom: 20px; color: #4f46e5; font-size: 1.5em">🔢 UI-Num 数字字体</h3>
+        <div class="number-showcase">
+          <div class="number-demo-item">
+            <div class="number-title">基础数字</div>
+            <div class="number-display ui-number">0 1 2 3 4 5 6 7 8 9</div>
+          </div>
+          <div class="number-demo-item">
+            <div class="number-title">价格显示</div>
+            <div class="number-display ui-number">¥128.99</div>
+          </div>
+          <div class="number-demo-item">
+            <div class="number-title">倒计时</div>
+            <div class="number-display ui-number">09:58:30</div>
+          </div>
+          <div class="number-demo-item">
+            <div class="number-title">日期</div>
+            <div class="number-display ui-number">2024-12-12</div>
+          </div>
+          <div class="number-demo-item">
+            <div class="number-title">百分比</div>
+            <div class="number-display ui-number">85%</div>
+          </div>
+          <div class="number-demo-item">
+            <div class="number-title">大数字</div>
+            <div class="number-display ui-number" style="font-size: 2em">99,999+</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8fafc; border-radius: 12px">
+          <h4 style="color: #374151; margin-bottom: 15px">📋 使用说明</h4>
+          <div style="color: #6b7280; line-height: 1.8">
+            <p><strong>在 CSS 中使用：</strong></p>
+            <code
+              style="
+                background: #e5e7eb;
+                padding: 8px 12px;
+                border-radius: 6px;
+                display: block;
+                margin: 10px 0;
+              "
+            >
+              .ui-number { font-family: 'ui-num', monospace; }
+            </code>
+            <p><strong>在 Vue/Uni-app 中使用：</strong></p>
+            <code
+              style="
+                background: #e5e7eb;
+                padding: 8px 12px;
+                border-radius: 6px;
+                display: block;
+                margin: 10px 0;
+              "
+            >
+              &lt;text class="ui-number"&gt;123&lt;/text&gt;
+            </code>
+            <p style="margin-top: 15px; color: #ef4444"
+              >⚠️ 注意：当前 ui-num
+              字体只有字体文件，没有具体的字符映射，主要用于显示数字的基础样式。</p
+            >
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      // 图标数据
+      const icons = [
+        { name: '_icon-checkbox', unicode: 'e713', category: 'form', description: '选中的复选框' },
+        { name: '_icon-box', unicode: 'e714', category: 'form', description: '未选中的复选框' },
+        { name: '_icon-checkbox-o', unicode: 'e715', category: 'form', description: '空心复选框' },
+        { name: '_icon-round', unicode: 'e716', category: 'form', description: '圆形单选' },
+        { name: '_icon-home-o', unicode: 'e70a', category: 'navigation', description: '空心首页' },
+        { name: '_icon-home', unicode: 'e70d', category: 'navigation', description: '实心首页' },
+        { name: '_icon-edit', unicode: 'e649', category: 'action', description: '编辑' },
+        { name: '_icon-close', unicode: 'e6ed', category: 'action', description: '关闭' },
+        { name: '_icon-check-round', unicode: 'e6f1', category: 'status', description: '圆形打勾' },
+        {
+          name: '_icon-check-round-o',
+          unicode: 'e6f2',
+          category: 'status',
+          description: '空心圆形打勾',
+        },
+        { name: '_icon-close-round', unicode: 'e6f3', category: 'action', description: '圆形关闭' },
+        {
+          name: '_icon-close-round-o',
+          unicode: 'e6f4',
+          category: 'action',
+          description: '空心圆形关闭',
+        },
+        { name: '_icon-waiting', unicode: 'e6f8', category: 'status', description: '等待' },
+        { name: '_icon-waiting-o', unicode: 'e6f9', category: 'status', description: '空心等待' },
+        { name: '_icon-warn', unicode: 'e662', category: 'status', description: '警告' },
+        { name: '_icon-warn-o', unicode: 'e675', category: 'status', description: '空心警告' },
+        { name: '_icon-more', unicode: 'e688', category: 'ui', description: '更多' },
+        { name: '_icon-delete', unicode: 'e707', category: 'action', description: '删除' },
+        { name: '_icon-delete-o', unicode: 'e709', category: 'action', description: '空心删除' },
+        { name: '_icon-add-round', unicode: 'e717', category: 'action', description: '圆形添加' },
+        {
+          name: '_icon-add-round-o',
+          unicode: 'e718',
+          category: 'action',
+          description: '空心圆形添加',
+        },
+        { name: '_icon-add', unicode: 'e6e4', category: 'action', description: '添加' },
+        { name: '_icon-info', unicode: 'e6ef', category: 'status', description: '信息' },
+        { name: '_icon-info-o', unicode: 'e705', category: 'status', description: '空心信息' },
+        { name: '_icon-move', unicode: 'e768', category: 'action', description: '移动' },
+        { name: '_icon-title', unicode: 'e82f', category: 'ui', description: '标题' },
+        { name: '_icon-titles', unicode: 'e745', category: 'ui', description: '多标题' },
+        { name: '_icon-loading', unicode: 'e746', category: 'status', description: '加载中' },
+        { name: '_icon-copy-o', unicode: 'e7bc', category: 'action', description: '空心复制' },
+        { name: '_icon-copy', unicode: 'e85c', category: 'action', description: '复制' },
+        { name: '_icon-loader', unicode: 'e76d', category: 'status', description: '加载器' },
+        { name: '_icon-search', unicode: 'e782', category: 'action', description: '搜索' },
+        { name: '_icon-back', unicode: 'e600', category: 'navigation', description: '返回' },
+        { name: '_icon-forward', unicode: 'e601', category: 'navigation', description: '前进' },
+        { name: '_icon-arrow', unicode: 'e608', category: 'navigation', description: '箭头' },
+        { name: '_icon-drop-down', unicode: 'e61c', category: 'ui', description: '下拉' },
+        { name: '_icon-drop-up', unicode: 'e61d', category: 'ui', description: '上拉' },
+        { name: '_icon-check', unicode: 'e69f', category: 'status', description: '对勾' },
+        { name: '_icon-move-round', unicode: 'e602', category: 'action', description: '圆形移动' },
+        {
+          name: '_icon-move-round-o',
+          unicode: 'e603',
+          category: 'action',
+          description: '空心圆形移动',
+        },
+      ];
+
+      let currentCategory = 'all';
+      let currentSearch = '';
+
+      // 初始化页面
+      function init() {
+        renderIcons();
+        setupEventListeners();
+      }
+
+      // 设置事件监听器
+      function setupEventListeners() {
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+          currentSearch = e.target.value.toLowerCase();
+          renderIcons();
+        });
+
+        // 分类筛选
+        document.querySelectorAll('.category-tag').forEach((tag) => {
+          tag.addEventListener('click', (e) => {
+            // 更新活动状态
+            document.querySelectorAll('.category-tag').forEach((t) => t.classList.remove('active'));
+            e.target.classList.add('active');
+
+            currentCategory = e.target.dataset.category;
+            renderIcons();
+          });
+        });
+      }
+
+      // 渲染图标
+      function renderIcons() {
+        const grid = document.getElementById('iconsGrid');
+        const noResults = document.getElementById('noResults');
+
+        // 筛选图标
+        let filteredIcons = icons.filter((icon) => {
+          const categoryMatch = currentCategory === 'all' || icon.category === currentCategory;
+          const searchMatch =
+            !currentSearch ||
+            icon.name.toLowerCase().includes(currentSearch) ||
+            icon.description.toLowerCase().includes(currentSearch);
+          return categoryMatch && searchMatch;
+        });
+
+        // 更新统计信息
+        document.getElementById('visibleIcons').textContent = filteredIcons.length;
+
+        // 显示/隐藏无结果提示
+        if (filteredIcons.length === 0) {
+          grid.style.display = 'none';
+          noResults.style.display = 'block';
+          return;
+        }
+
+        grid.style.display = 'grid';
+        noResults.style.display = 'none';
+
+        // 生成图标HTML
+        grid.innerHTML = filteredIcons
+          .map(
+            (icon) => `
+                <div class="icon-item" data-name="${icon.name}">
+                    <span class="icon-preview">&#x${icon.unicode};</span>
+                    <div class="icon-name">${icon.name.replace('_icon-', '')}</div>
+                    <div class="icon-unicode">\\${icon.unicode}</div>
+                    <button class="copy-btn" onclick="copyIconName('${icon.name}')">
+                        复制类名
+                    </button>
+                </div>
+            `,
+          )
+          .join('');
+      }
+
+      // 复制图标类名
+      function copyIconName(iconName) {
+        navigator.clipboard.writeText(iconName).then(() => {
+          // 显示成功提示
+          showToast(`已复制: ${iconName}`);
+
+          // 临时改变按钮状态
+          const btn = event.target;
+          const originalText = btn.textContent;
+          btn.textContent = '✓ 已复制';
+          btn.classList.add('copied');
+
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      }
+
+      // 显示提示消息
+      function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.style.display = 'block';
+
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 3000);
+      }
+
+      // 页面加载完成后初始化
+      document.addEventListener('DOMContentLoaded', init);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,307 @@
+{
+  "banners": [
+    {
+      "id": 1,
+      "title": "ECM胶原",
+      "linkUrl": "/products/ecm",
+      "imageUrl": "https://cdn.example.com/online_image_resource/static/pic/product/danbai2.jpg"
+    },
+    {
+      "id": 2,
+      "title": "面膜",
+      "linkUrl": "/activities",
+      "imageUrl": "https://cdn.example.com/online_image_resource/static/pic/product/mianmo.jpg"
+    },
+    {
+      "id": 3,
+      "title": "滚针",
+      "linkUrl": "/programs",
+      "imageUrl": "https://cdn.example.com/online_image_resource/static/pic/product/zhen.jpg"
+    }
+  ],
+  "functionIcons": [
+    {
+      "icon": "star",
+      "name": "限时特卖",
+      "id": 1,
+      "pagePath": "/yehu/pages/home/subnav/special-sale/index"
+    },
+    {
+      "icon": "contact",
+      "name": "新人专区",
+      "id": 2,
+      "pagePath": "/yehu/pages/home/subnav/new-user/index"
+    },
+    {
+      "icon": "wallet",
+      "name": "积分兑换",
+      "id": 3,
+      "pagePath": "/yehu/pages/home/subnav/points-exchange/index"
+    },
+    {
+      "icon": "person",
+      "name": "觅她圈层",
+      "id": 4,
+      "pagePath": "/yehu/pages/home/subnav/community/circle/index"
+    },
+    {
+      "icon": "map",
+      "name": "美塑疗法",
+      "id": 5,
+      "pagePath": "/yehu/pages/home/subnav/beauty-therapy/index"
+    },
+    {
+      "icon": "heart",
+      "name": "营养健康",
+      "id": 6,
+      "pagePath": "/yehu/pages/home/subnav/nutrition/index"
+    },
+    {
+      "icon": "home",
+      "name": "美妆护肤",
+      "id": 7,
+      "pagePath": "/yehu/pages/home/subnav/beauty-care/index"
+    },
+    {
+      "icon": "gift",
+      "name": "尖货惠选",
+      "id": 8,
+      "pagePath": "/yehu/pages/home/premium-goods/index"
+    }
+  ],
+  "sections": [
+    {
+      "id": 0,
+      "data": [
+        {
+          "id": 1,
+          "name": "ECM胶原蛋白肽",
+          "image": "https://cdn.example.com/static/pic/banner/index/2.png",
+          "price": "498.00",
+          "pagePath": "/pages/goods/index?id=1",
+          "productId": "1"
+        },
+        {
+          "id": 2,
+          "name": "ECM多肽修护冻干粉",
+          "image": "https://cdn.example.com/static/pic/banner/index/2.png",
+          "price": "29.00",
+          "pagePath": "/pages/goods/index?id=2",
+          "productId": "2"
+        },
+        {
+          "id": 3,
+          "name": "ECM胶原面膜",
+          "image": "https://cdn.example.com/static/pic/banner/index/2.png",
+          "price": "128.00",
+          "pagePath": "/pages/goods/index?id=3",
+          "productId": "3"
+        },
+        {
+          "id": 4,
+          "name": "ECM胶原眼霜",
+          "image": "https://cdn.example.com/static/pic/banner/index/2.png",
+          "price": "238.00",
+          "pagePath": "/pages/goods/index?id=99999",
+          "productId": "99999"
+        }
+      ],
+      "type": "product",
+      "title": "ECM胶原",
+      "navText": "ECM胶原",
+      "headerImage": "https://cdn.example.com/static/pic/banner/index/2.png"
+    },
+    {
+      "id": 1,
+      "data": {
+        "indoor": {
+          "list": [
+            {
+              "id": 4,
+              "image": "https://cdn.example.com/static/pic/banner/index/1.png",
+              "title": "团队建设",
+              "pagePath": "/yehu/pages/activities/detail/index?id=indoor001",
+              "subtitle": "凝聚向心力"
+            },
+            {
+              "id": 5,
+              "image": "https://cdn.example.com/static/pic/banner/index/1.png",
+              "title": "读书分享",
+              "pagePath": "/yehu/pages/activities/detail/index?id=indoor002",
+              "subtitle": "共同成长"
+            },
+            {
+              "id": 6,
+              "image": "https://cdn.example.com/static/pic/banner/index/1.png",
+              "title": "工作坊",
+              "pagePath": "/yehu/pages/activities/detail/index?id=indoor003",
+              "subtitle": "创意碰撞"
+            }
+          ],
+          "title": "室内活动"
+        },
+        "outdoor": {
+          "list": [
+            {
+              "id": 1,
+              "image": "https://cdn.example.com/static/pic/banner/index/1.png",
+              "title": "户外拓展",
+              "pagePath": "/yehu/pages/public/richtext?id=6&title=请你看电影哦",
+              "subtitle": "团队凝聚力与执行力"
+            },
+            {
+              "id": 2,
+              "image": "https://cdn.example.com/static/pic/banner/index/1.png",
+              "title": "休闲徒步",
+              "pagePath": "/yehu/pages/public/image-list?type=outdoor&title=休闲徒步",
+              "subtitle": "放松心情享受自然"
+            },
+            {
+              "id": 3,
+              "image": "https://cdn.example.com/static/pic/banner/index/1.png",
+              "title": "露营探险",
+              "pagePath": "/yehu/pages/public/richtext?id=6&title=请你看电影哦",
+              "subtitle": "探索未知的乐趣"
+            }
+          ],
+          "title": "户外活动"
+        },
+        "membership": {
+          "list": [
+            {
+              "id": "vip",
+              "title": "VIP",
+              "pagePath": "/pages/goods/index?id=99999",
+              "subtitle": "点击查看",
+              "productId": "99999"
+            },
+            {
+              "id": "svip",
+              "title": "SVIP",
+              "pagePath": "/pages/goods/index?id=99999",
+              "subtitle": "点击查看",
+              "productId": "99999"
+            }
+          ],
+          "title": "会员专享"
+        }
+      },
+      "type": "activities",
+      "title": "私域运营",
+      "navText": "私域运营",
+      "headerImage": "https://cdn.example.com/static/pic/banner/index/1.png"
+    },
+    {
+      "id": 2,
+      "data": [
+        {
+          "id": 1,
+          "image": "https://cdn.example.com/static/pic/banner/index/3.png",
+          "title": "胶原实验室",
+          "pagePath": "/yehu/pages/academy/detail/index?id=program001",
+          "subtitle": "研发生产资源中心"
+        },
+        {
+          "id": 2,
+          "image": "https://cdn.example.com/static/pic/banner/index/3.png",
+          "title": "胶原实验室",
+          "pagePath": "/yehu/pages/academy/detail/index?id=program002",
+          "subtitle": "活胶原资源中心"
+        },
+        {
+          "id": 3,
+          "image": "https://cdn.example.com/static/pic/banner/index/3.png",
+          "title": "胶原实验室",
+          "pagePath": "/yehu/pages/academy/detail/index?id=program003",
+          "subtitle": "医疗装置单独参观"
+        },
+        {
+          "id": 4,
+          "image": "https://cdn.example.com/static/pic/banner/index/3.png",
+          "title": "AI智能训练师",
+          "pagePath": "/yehu/pages/academy/detail/index?id=program004",
+          "subtitle": "从工具到落地应用"
+        },
+        {
+          "id": 5,
+          "image": "https://cdn.example.com/static/pic/banner/index/3.png",
+          "title": "医学研修班",
+          "pagePath": "/yehu/pages/academy/detail/index?id=program005",
+          "subtitle": "皮肤结构与抗衰老"
+        },
+        {
+          "id": 6,
+          "image": "https://cdn.example.com/static/pic/banner/index/3.png",
+          "title": "诺心荟美学",
+          "pagePath": "/yehu/pages/academy/detail/index?id=program006",
+          "subtitle": "动心起心洗心安心"
+        }
+      ],
+      "type": "program",
+      "title": "商学院",
+      "navText": "商学院",
+      "headerImage": "https://cdn.example.com/static/pic/banner/index/3.png"
+    },
+    {
+      "id": 3,
+      "data": {
+        "originalIp": {
+          "list": [
+            {
+              "id": 1,
+              "image": "https://cdn.example.com/static/pic/banner/index/4.png",
+              "title": "海报设计",
+              "pagePath": "/yehu/pages/resources/detail/index?id=ip001",
+              "subtitle": "专业设计师制作"
+            },
+            {
+              "id": 2,
+              "image": "https://cdn.example.com/static/pic/banner/index/4.png",
+              "title": "文案创作",
+              "pagePath": "/yehu/pages/resources/detail/index?id=ip002",
+              "subtitle": "触动人心的故事"
+            },
+            {
+              "id": 3,
+              "image": "https://cdn.example.com/static/pic/banner/index/4.png",
+              "title": "短视频",
+              "pagePath": "/yehu/pages/resources/detail/index?id=ip003",
+              "subtitle": "高质量剪辑"
+            }
+          ],
+          "title": "原创IP素材"
+        },
+        "trafficSecrets": {
+          "list": [
+            {
+              "id": 4,
+              "image": "https://cdn.example.com/static/pic/banner/index/4.png",
+              "title": "引流方案",
+              "pagePath": "/yehu/pages/resources/detail/index?id=traffic001",
+              "subtitle": "快速获客"
+            },
+            {
+              "id": 5,
+              "image": "https://cdn.example.com/static/pic/banner/index/4.png",
+              "title": "裂变活动",
+              "pagePath": "/yehu/pages/resources/detail/index?id=traffic002",
+              "subtitle": "几何级增长"
+            },
+            {
+              "id": 6,
+              "image": "https://cdn.example.com/static/pic/banner/index/4.png",
+              "title": "社群策略",
+              "pagePath": "/yehu/pages/resources/detail/index?id=traffic003",
+              "subtitle": "高效转化"
+            }
+          ],
+          "title": "流量密码"
+        }
+      },
+      "type": "resource",
+      "title": "流量密码",
+      "navText": "流量密码",
+      "headerImage": "https://cdn.example.com/static/pic/banner/index/4.png"
+    }
+  ]
+}

@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🌈 ColorIcon 完整预览 - 441个彩色图标</title>
+    <style>
+      /* 使用一些网络图标字体作为示例 */
+      @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+      /* 自定义图标样式 */
+      .custom-icon {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background-size: contain;
+        margin-right: 8px;
+      }
+
+      /* 全局样式 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      /* 头部 */
+      header {
+        background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      header p {
+        font-size: 1.1em;
+        opacity: 0.9;
+      }
+
+      /* 重要提示 */
+      .important-notice {
+        background: #fff3cd;
+        color: #92400e;
+        padding: 15px;
+        text-align: center;
+        border-bottom: 2px solid #f59e0b;
+        font-weight: 600;
+      }
+
+      /* 搜索区域 */
+      .search-section {
+        padding: 30px;
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .search-container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 15px 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: #4ecdc4;
+        box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+      }
+
+      /* 统计信息 */
+      .stats {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 2em;
+        font-weight: bold;
+        color: #fbbf24;
+      }
+
+      .stat-label {
+        font-size: 0.9em;
+        opacity: 0.8;
+      }
+
+      /* 分类标签 */
+      .category-tabs {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .category-tab {
+        background: #f1f5f9;
+        color: #64748b;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .category-tag:hover {
+        background: #e2e8f0;
+      }
+
+      .category-tag.active {
+        background: #4ecdc4;
+        color: white;
+        border-color: #4ecdc4;
+      }
+
+      /* 图标展示区域 */
+      .icons-section {
+        padding: 30px;
+      }
+
+      .category-section {
+        margin-bottom: 40px;
+      }
+
+      .category-title {
+        font-size: 1.5em;
+        color: #ff6b6b;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .category-count {
+        font-size: 0.7em;
+        background: #f1f5f9;
+        color: #64748b;
+        padding: 4px 8px;
+        border-radius: 12px;
+      }
+
+      .icons-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 15px;
+      }
+
+      .icon-item {
+        background: white;
+        border-radius: 12px;
+        padding: 15px;
+        text-align: center;
+        border: 2px solid #e2e8f0;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .icon-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        border-color: #4ecdc4;
+      }
+
+      .icon-preview {
+        font-size: 2.5em;
+        color: #4ecdc4;
+        margin-bottom: 10px;
+        font-family: 'Font Awesome 6 Free';
+        display: block;
+      }
+
+      .icon-name {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 6px;
+        font-size: 13px;
+        word-break: break-all;
+      }
+
+      .icon-status {
+        font-size: 11px;
+        color: #6b7280;
+        margin-bottom: 10px;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+
+      .status-demo {
+        background: #d1fae5;
+        color: #065f46;
+      }
+
+      .status-available {
+        background: #f0fdf4;
+        color: #166534;
+      }
+
+      .status-unavailable {
+        background: #fef2f2;
+        color: #6b7280;
+      }
+
+      .copy-btn {
+        background: linear-gradient(135deg, #4ecdc4 0%, #ff6b6b 100%);
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 00.3s ease;
+      }
+
+      .copy-btn:hover {
+        transform: scale(1.05);
+      }
+
+      .copy-btn.copied {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      }
+
+      /* 真实的 ColorIcon 示例图标 */
+      .real-coloricon {
+        font-family: sans-serif;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      /* 解决方案卡片 */
+      .solution-card {
+        background: #e0f2fe;
+        border-left: 4px solid #0ea5e9;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .solution-card h3 {
+        color: #0369a1;
+        margin-bottom: 10px;
+      }
+
+      .solution-card ul {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 10px;
+      }
+
+      .solution-card li {
+        margin-bottom: 8px;
+        padding-left: 20px;
+        position: relative;
+      }
+
+      .solution-card li:before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        color: #0ea5e9;
+        font-weight: bold;
+      }
+
+      .solution-card code {
+        background: #1e293b;
+        color: #f3f4f6;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+      }
+
+      /* 使用说明 */
+      .usage-section {
+        padding: 30px;
+        background: #f8fafc;
+        border-top: 2px solid #e2e8f0;
+      }
+
+      .usage-title {
+        font-size: 1.3em;
+        color: #374151;
+        margin-bottom: 15px;
+      }
+
+      .usage-code {
+        background: #1f2937;
+        color: #f3f4f6;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        margin: 10px 0;
+        overflow-x: auto;
+      }
+
+      /* 无结果提示 */
+      .no-results {
+        text-align: center;
+        padding: 60px 20px;
+        color: #6b7280;
+      }
+
+      .no-results-icon {
+        font-size: 4em;
+        margin-bottom: 20px;
+        opacity: 0.3;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 768px) {
+        .icons-grid {
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+          gap: 10px;
+        }
+
+        header h1 {
+          font-size: 2em;
+        }
+
+        .stats {
+          gap: 20px;
+        }
+
+        .icon-preview {
+          font-size: 2em;
+        }
+      }
+
+      /* 提示消息 */
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: #10b981;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        display: none;
+        z-index: 1000;
+        animation: slideInRight 0.3s ease;
+      }
+
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🌈 ColorIcon 图标库完整预览</h1>
+        <p>包含 441 个精美彩色图标 - 完整分析和展示</p>
+        <div class="stats">
+          <div class="stat-item">
+            <div class="stat-number">441</div>
+            <div class="stat-label">图标总数</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="visibleIcons">50</div>
+            <div class="stat-label">当前显示</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">12</div>
+            <div class="stat-label">功能分类</div>
+          </div>
+        </div>
+      </header>
+
+      <div class="important-notice">
+        ⚠️ 重要提示：这是 ColorIcon 图标库的完整分析和预览。由于原文件包含 441
+        个图标且字体文件较大，我们在此展示了结构分析和部分示例图标。
+      </div>
+
+      <section class="search-section">
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-input"
+            id="searchInput"
+            placeholder="搜索图标名称... (例如: home, add, user, star)"
+          />
+          <div class="category-tags" id="categoryTags">
+            <div class="category-tag active" data-category="all">全部</div>
+            <div class="category-tag" data-category="basic">基础图标</div>
+            <div class="category-tag" data-category="action">操作类</div>
+            <div class="category-tag" data-category="navigation">导航类</div>
+            <div class="category-tag" data-category="social">社交类</div>
+            <div class="category-tag" data-category="commerce">电商类</div>
+            <div class="category-tag" data-category="media">媒体类</div>
+            <div class="category-tag" data-category="file">文件类</div>
+            <div class="category-tag" data-category="system">系统类</div>
+            <div class="category-tag" data-category="user">用户类</div>
+            <div class="category-tag" data-category="communication">通讯类</div>
+            <div class="category-tag" data-category="payment">支付类</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="icons-section" id="iconsSection">
+        <!-- 示例图标将通过 JavaScript 动态生成 -->
+      </section>
+
+      <div class="solution-card">
+        <h3>🔧 如何使用完整的 441 个 ColorIcon 图标</h3>
+        <p>由于 ColorIcon 包含大量图标，以下是获取和使用的方法：</p>
+        <ul>
+          <li
+            ><strong>方法1：直接在项目中导入</strong> <br /><code
+              >@import './sheep/scss/icon/_coloricon.scss';</code
+            >
+            <br />然后在 Vue 组件中使用：<code>&lt;text class="cicon-home"&gt;&lt;/text&gt;</code>
+          </li>
+          <li
+            ><strong>方法2：提取图标列表</strong> <br /><code
+              >grep -o "cicon-[a-zA-Z0-9_-]*" _coloricon.scss | sort | uniq</code
+            >
+            <br />这将输出所有 441 个图标名称
+          </li>
+          <li
+            ><strong>方法3：查看完整文件</strong> <br />直接打开
+            <code>_coloricon.scss</code> 文件查看所有图标定义
+          </li>
+          <li
+            ><strong>方法4：使用命令行工具</strong> <br /><code
+              >sed -n '/\.cicon-/p' _coloricon.scss | sed 's/.*cicon-\([a-zA-Z0-9_-]*\).*/\1/' |
+              sort | uniq</code
+            >
+          </li>
+        </ul>
+      </div>
+
+      <section class="usage-section">
+        <h3>📋 ColorIcon 使用指南</h3>
+        <div class="usage-code">
+          <strong>1. 导入图标库：</strong><br />
+          @import './sheep/scss/icon/_coloricon.scss';
+        </div>
+        <div class="usage-code">
+          <strong>2. 在 Vue 中使用：</strong><br />
+          &lt;template&gt;<br />
+          &nbsp;&nbsp;&lt;text class="cicon-home"&gt;&lt;/text&gt;<br />
+          &nbsp;&nbsp;&lt;i class="cicon-user"&gt;&lt;/i&gt;<br />
+          &nbsp;&nbsp;&lt;span class="cicon-star"&gt;&lt;/span&gt;<br />
+          &lt;/template&gt;
+        </div>
+        <div class="usage-code">
+          <strong>3. 自定义样式：</strong><br />
+          .my-icon {<br />
+          &nbsp;&nbsp;font-family: 'coloricon';<br />
+          &nbsp;&nbsp;font-size: 24px;<br />
+          &nbsp;&nbsp;color: #4ECDC4;<br />
+          &nbsp;&nbsp;transition: all 0.3s ease;<br />
+          }<br />
+          .my-icon:hover {<br />
+          &nbsp;&nbsp;transform: scale(1.1);<br />
+          &nbsp;&nbsp;color: #FF6B6B;<br />
+          }
+        </div>
+        <div class="usage-code">
+          <strong>4. ColorIcon 特点：</strong><br />
+          ✅ 图标数量最多：441个，覆盖所有场景<br />
+          ✅ 分类最完善：12个功能分类<br />
+          ✅ 适合复杂应用：企业级、管理系统<br />
+          ⚠️ 文件较大：约 120KB，按需引入
+        </div>
+      </section>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      // ColorIcon 图标示例数据 (实际项目中包含441个)
+      const colorIconExamples = [
+        // 基础图标类
+        { name: 'cicon-home', category: 'navigation', description: '首页' },
+        { name: 'cicon-user', category: 'user', description: '用户' },
+        { name: 'cicon-add', category: 'basic', description: '添加' },
+        { name: 'cicon-edit', category: 'basic', description: '编辑' },
+        { name: 'cicon-delete', category: 'basic', description: '删除' },
+        { name: 'cicon-search', category: 'basic', description: '搜索' },
+        { name: 'cicon-back', category: 'navigation', description: '返回' },
+        { name: 'cicon-more', category: 'navigation', description: '更多' },
+        { name: 'cicon-settings', category: 'system', description: '设置' },
+        { name: 'cicon-download', category: 'basic', description: '下载' },
+        { name: 'cicon-upload', category: 'basic', description: '上传' },
+
+        // 社交图标类
+        { name: 'cicon-wechat', category: 'social', description: '微信' },
+        { name: 'cicon-qq', category: 'social', description: 'QQ' },
+        { name: 'cicon-facebook', category: 'social', description: 'Facebook' },
+        { name: 'cicon-twitter', category: 'social', description: 'Twitter' },
+        { name: 'cicon-instagram', category: 'social', description: 'Instagram' },
+
+        // 电商图标类
+        { name: 'cicon-cart', category: 'commerce', description: '购物车' },
+        { name: 'cicon-store', category: 'commerce', description: '店铺' },
+        { name: 'cicon-order', category: 'commerce', description: '订单' },
+        { name: 'cicon-payment', category: 'payment', description: '支付' },
+        { name: 'cicon-wallet', category: 'payment', description: '钱包' },
+        { name: 'cicon-gift', category: 'commerce', description: '礼品' },
+
+        // 媒体图标类
+        { name: 'cicon-camera', category: 'media', description: '相机' },
+        { name: 'cicon-video', category: 'media', description: '视频' },
+        { name: 'cicon-music', category: 'media', description: '音乐' },
+        { name: 'cicon-image', category: 'media', description: '图片' },
+        { name: 'cicon-gallery', category: 'media', description: '画廊' },
+
+        // 文件图标类
+        { name: 'cicon-file', category: 'file', description: '文件' },
+        { name: 'cicon-folder', category: 'file', description: '文件夹' },
+        { name: 'cicon-document', category: 'file', description: '文档' },
+        { name: 'cicon-archive', category: 'file', description: '压缩包' },
+        { name: 'cicon-cloud', category: 'file', description: '云端' },
+
+        // 系统图标类
+        { name: 'cicon-warning', category: 'status', description: '警告' },
+        { name: 'cicon-error', category: 'status', description: '错误' },
+        { name: 'cicon-success', category: 'status', description: '成功' },
+        { name: 'cicon-info', category: 'status', description: '信息' },
+        { name: 'cicon-help', category: 'status', description: '帮助' },
+
+        // 状态图标类
+        { name: 'cicon-loading', category: 'status', description: '加载中' },
+        { name: 'cicon-refresh', category: 'status', description: '刷新' },
+        { name: 'cicon-check', category: 'status', description: '确认' },
+        { name: 'cicon-close', category: 'status', description: '关闭' },
+        { name: 'cicon-pause', category: 'status', description: '暂停' },
+
+        // 其他常用图标
+        { name: 'cicon-star', category: 'basic', description: '星星' },
+        { name: 'cicon-heart', category: 'basic', description: '爱心' },
+        { name: 'cicon-thumbs-up', category: 'social', description: '点赞' },
+        { name: 'cicon-share', category: 'basic', description: '分享' },
+        { name: 'cicon-print', category: 'system', description: '打印' },
+        { name: 'cicon-fullscreen', category: 'system', description: '全屏' },
+      ];
+
+      // 实际项目中应该有441个图标，这里用示例展示
+      const actualIconCount = 441;
+      let currentCategory = 'all';
+      let currentSearch = '';
+
+      // 初始化页面
+      function init() {
+        renderIcons();
+        setupEventListeners();
+      }
+
+      // 设置事件监听器
+      function setupEventListeners() {
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+          currentSearch = e.target.value.toLowerCase();
+          renderIcons();
+        });
+
+        // 分类筛选
+        document.querySelectorAll('.category-tag').forEach((tag) => {
+          tag.addEventListener('click', (e) => {
+            document.querySelectorAll('.category-tag').forEach((t) => t.classList.remove('active'));
+            e.target.classList.add('active');
+            currentCategory = e.target.dataset.category;
+            renderIcons();
+          });
+        });
+      }
+
+      // 渲染图标
+      function renderIcons() {
+        const section = document.getElementById('iconsSection');
+
+        // 筛选图标
+        let filteredIcons = colorIconExamples.filter((icon) => {
+          const categoryMatch = currentCategory === 'all' || icon.category === currentCategory;
+          const searchMatch =
+            !currentSearch ||
+            icon.name.toLowerCase().includes(currentSearch) ||
+            icon.description.toLowerCase().includes(currentSearch);
+          return categoryMatch && searchMatch;
+        });
+
+        // 更新显示数量
+        document.getElementById('visibleIcons').textContent = filteredIcons.length;
+
+        // 显示/隐藏无结果提示
+        if (filteredIcons.length === 0) {
+          section.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">🔍</div>
+                        <h3>没有找到匹配的图标</h3>
+                        <p>请尝试其他搜索关键词或分类</p>
+                    </div>
+                `;
+          return;
+        }
+
+        // 按分类分组显示
+        const groupedIcons = {};
+        filteredIcons.forEach((icon) => {
+          if (!groupedIcons[icon.category]) {
+            groupedIcons[icon.category] = [];
+          }
+          groupedIcons[icon.category].push(icon);
+        });
+
+        let html = '';
+        Object.entries(groupedIcons).forEach(([category, icons]) => {
+          const categoryTitle = getCategoryTitle(category);
+          html += `
+                    <div class="category-section">
+                        <h3 class="category-title">
+                            ${getCategoryEmoji(category)} ${categoryTitle}
+                            <span class="category-count">${icons.length}</span>
+                        </h3>
+                        <div class="icons-grid">
+                            ${icons
+                              .map(
+                                (icon) => `
+                                <div class="icon-item">
+                                    <span class="icon-preview">${getIconPreview(icon.name)}</span>
+                                    <div class="icon-name">${icon.name.replace('cicon-', '')}</div>
+                                    <div class="icon-description">${icon.description}</div>
+                                    <div class="icon-status status-available">✅ 可用</div>
+                                    <button class="copy-btn" onclick="copyIconClass('${
+                                      icon.name
+                                    }')">
+                                        复制类名
+                                    </button>
+                                </div>
+                            `,
+                              )
+                              .join('')}
+                        </div>
+                    </div>
+                `;
+        });
+
+        // 添加完整统计信息
+        html += `
+                <div class="category-section">
+                    <h3 class="category-title">
+                        📊 完整 ColorIcon 图标库统计
+                    </h3>
+                    <div style="background: white; border-radius: 12px; padding: 20px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr); gap: 15px;">
+                            <div style="text-align: center; padding: 15px; background: #f8fafc; border-radius: 8px;">
+                                <div style="font-size: 2em; color: #4ECDC4;">🎨</div>
+                                <div style="font-weight: 600;">总图标数</div>
+                                <div style="font-size: 1.5em; color: #374151;">${actualIconCount}</div>
+                            </div>
+                            <div style="text-align: center; padding: 15px; background: #f8fafc; border-radius: 8px;">
+                                <div style="font-size: 2em; color: #FF6B6B;">🌈</div>
+                                <div style="font-weight: 600;">字体类型</div>
+                                <div style="font-size: 1.5em; color: #374151;">ColorIcon Font</div>
+                            </div>
+                            <div style="text-align: center; padding: 15px; background: #f8fafc; border-radius: 8px;">
+                                <div style="font-size: 2em; color: #667eea;">📦</div>
+                                <div style="font-weight: 600;">文件位置</div>
+                                <div style="font-size: 1.5em; color: #374151;">_coloricon.scss</div>
+                            </div>
+                            <div style="text-align: center; padding: 15px; background: #f8fafc; border-radius: 8px;">
+                                <div style="font-size: 2em; color: #fbbf24;">⭐</div>
+                                <div style="font-weight: 600;">推荐指数</div>
+                                <div style="font-size: 1.5em; color: #374151;">⭐⭐⭐⭐</div>
+                            </div>
+                            <div style="text-align: center; padding: 15px; background: #f8fafc; border-radius: 8px;">
+                                <div style="font-size: 2em; color: #FF6B6B;">🎯</div>
+                                <div style="font-weight: 600;">适用场景</div>
+                                <div style="font-size: 1.5em; color: #374151;">复杂应用系统</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+        section.innerHTML = html;
+      }
+
+      // 获取分类标题
+      function getCategoryTitle(category) {
+        const titles = {
+          basic: '基础图标',
+          action: '操作类',
+          navigation: '导航类',
+          social: '社交类',
+          commerce: '电商类',
+          media: '媒体类',
+          file: '文件类',
+          system: '系统类',
+          user: '用户类',
+          communication: '通讯类',
+          payment: '支付类',
+        };
+        return titles[category] || category;
+      }
+
+      // 获取分类表情符号
+      function getCategoryEmoji(category) {
+        const emojis = {
+          basic: '⚡',
+          action: '🎯',
+          navigation: '🧭',
+          social: '👥',
+          commerce: '🛍️',
+          media: '🎬',
+          file: '📁',
+          system: '⚙️',
+          user: '👤',
+          communication: '💬',
+          payment: '💳',
+        };
+        return emojis[category] || '📌';
+      }
+
+      // 获取图标预览 (使用 Font Awesome 或自定义样式)
+      function getIconPreview(iconName) {
+        // 映射到 Font Awesome 图标
+        const iconMapping = {
+          'cicon-home': 'fa-home',
+          'cicon-user': 'fa-user',
+          'cicon-add': 'fa-plus',
+          'cicon-edit': 'fa-edit',
+          'cicon-delete': 'fa-trash',
+          'cicon-search': 'fa-search',
+          'cicon-back': 'fa-arrow-left',
+          'cicon-more': 'fa-ellipsis-h',
+          'cicon-settings': 'fa-cog',
+          'cicon-download': 'fa-download',
+          'cicon-upload': 'fa-upload',
+          'cicon-wechat': 'fa-weixin',
+          'cicon-qq': 'fa-qq',
+          'cicon-facebook': 'fa-facebook-f',
+          'cicon-twitter': 'fa-twitter',
+          'cicon-instagram': 'fa-instagram',
+          'cicon-cart': 'fa-shopping-cart',
+          'cicon-store': 'fa-store',
+          'cicon-order': 'fa-clipboard-list',
+          'cicon-payment': 'fa-credit-card',
+          'cicon-wallet': 'fa-wallet',
+          'cicon-gift': 'fa-gift',
+          'cicon-camera': 'fa-camera',
+          'cicon-video': 'fa-video',
+          'cicon-music': 'fa-music',
+          'cicon-image': 'fa-image',
+          'cicon-gallery': 'fa-images',
+          'cicon-file': 'fa-file',
+          'cicon-folder': 'fa-folder',
+          'cicon-document': 'fa-file-alt',
+          'cicon-archive': 'fa-file-archive',
+          'cicon-cloud': 'fa-cloud',
+          'cicon-warning': 'fa-exclamation-triangle',
+          'cicon-error': 'fa-times-circle',
+          'cicon-success': 'fa-check-circle',
+          'cicon-info': 'fa-info-circle',
+          'cicon-help': 'fa-question-circle',
+          'cicon-loading': 'fa-spinner fa-spin',
+          'cicon-refresh': 'fa-refresh',
+          'cicon-check': 'fa-check',
+          'cicon-close': 'fa-times',
+          'cicon-pause': 'fa-pause',
+          'cicon-star': 'fa-star',
+          'cicon-heart': 'fa-heart',
+          'cicon-thumbs-up': 'fa-thumbs-up',
+          'cicon-share': 'fa-share',
+          'cicon-print': 'fa-print',
+          'cicon-fullscreen': 'fa-expand',
+        };
+
+        return iconMapping[iconName]
+          ? `<i class="fas ${iconMapping[iconName]}"></i>`
+          : '<span class="real-coloricon">CI</span>';
+      }
+
+      // 复制图标类名
+      function copyIconClass(className) {
+        navigator.clipboard.writeText(className).then(() => {
+          showToast(`已复制: ${className}`);
+
+          const btn = event.target;
+          const originalText = btn.textContent;
+          btn.textContent = '✓ 已复制';
+          btn.classList.add('copied');
+
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      }
+
+      // 显示提示消息
+      function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.style.display = 'block';
+
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 3000);
+      }
+
+      // 页面加载完成后初始化
+      document.addEventListener('DOMContentLoaded', init);
+    </script>
+  </body>
+</html>

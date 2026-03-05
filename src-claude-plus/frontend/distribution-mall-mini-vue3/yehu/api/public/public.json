@@ -1,0 +1,34 @@
+{
+  "outdoor": [
+    {
+      "id": "1",
+      "title": "",
+      "imageUrl": "https://cdn.example.com/static/pic/banner/index/1.png",
+      "pagePath": "/yehu/pages/public/richtext?id=6&title=请你看电影哦"
+    },
+    {
+      "id": "2",
+      "title": "",
+      "imageUrl": "https://cdn.example.com/static/pic/banner/index/2.png",
+      "pagePath": "/yehu/pages/public/richtext?id=6&title=请你看电影哦"
+    },
+    {
+      "id": "3",
+      "title": "",
+      "imageUrl": "https://cdn.example.com/static/pic/banner/index/3.png",
+      "pagePath": "/yehu/pages/public/richtext?id=6&title=请你看电影哦"
+    },
+    {
+      "id": "4",
+      "title": "",
+      "imageUrl": "https://cdn.example.com/static/pic/banner/index/4.png",
+      "pagePath": "/yehu/pages/public/richtext?id=6&title=请你看电影哦"
+    },
+    {
+      "id": "5",
+      "title": "",
+      "imageUrl": "https://cdn.example.com/static/pic/banner/index/5.png",
+      "pagePath": "/yehu/pages/public/richtext?id=6&title=请你看电影哦"
+    }
+  ]
+}

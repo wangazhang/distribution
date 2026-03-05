@@ -1,0 +1,9 @@
+[submodule "src-claude-plus/backend/hissp-distribution"]
+	path = src-claude-plus/backend/hissp-distribution
+	url = https://github.com/example-org/hissp-distribution-backend.git
+[submodule "src-claude-plus/frontend/distribution-mall-mini-vue3"]
+	path = src-claude-plus/frontend/distribution-mall-mini-vue3
+	url = https://github.com/example-org/distribution-mall-mini-vue3.git
+[submodule "src-claude-plus/frontend/yudao-ui-admin-vue3"]
+	path = src-claude-plus/frontend/yudao-ui-admin-vue3
+	url = https://github.com/example-org/yudao-ui-admin-vue3.git

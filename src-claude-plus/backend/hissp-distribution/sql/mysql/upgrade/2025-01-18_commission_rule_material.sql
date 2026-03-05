@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `mb_commission_rule_material` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `rule_id` bigint NOT NULL COMMENT '关联的分佣规则ID',
+  `policy_id` bigint NOT NULL COMMENT '策略ID',
+  `material_id` bigint NOT NULL COMMENT '物料ID',
+  `material_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '物料名称',
+  `material_code` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '物料编码',
+  `material_image` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '物料图片',
+  `material_unit` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '物料单位',
+  `quantity` int NOT NULL DEFAULT '1' COMMENT '发放数量',
+  `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
+  `creator` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  PRIMARY KEY (`id`),
+  KEY `idx_commission_rule_material_rule` (`rule_id`),
+  CONSTRAINT `fk_commission_rule_material_rule` FOREIGN KEY (`rule_id`) REFERENCES `mb_commission_rule` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='分佣规则物料奖励表';

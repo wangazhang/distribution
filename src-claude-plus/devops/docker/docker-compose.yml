@@ -1,0 +1,171 @@
+version: "3.4"
+
+name: distribution-system
+
+services:
+  mysql:
+    container_name: distribution-mysql
+    image: mysql:8.0.44
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "43306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ruoyi-vue-pro}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-CHANGE_ME_MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ~/storage/distribution/mysql/data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - ./mysql/conf:/etc/mysql/conf.d
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  redis:
+    container_name: distribution-redis
+    image: redis:6.0
+    restart: unless-stopped
+    ports:
+      - "46379:6379"
+    volumes:
+      - ~/storage/distribution/redis/data:/data
+      - ./redis/conf/redis.conf:/etc/redis/redis.conf
+    command: redis-server /etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  rocketmq-nameserver:
+    container_name: distribution-rocketmq-nameserver
+    image: apache/rocketmq:5.1.4
+    restart: unless-stopped
+    ports:
+      - "49876:9876"
+    volumes:
+      - ~/storage/distribution/rocketmq/nameserver/logs:/home/rocketmq/logs
+      - ~/storage/distribution/rocketmq/nameserver/store:/home/rocketmq/store
+      - ./rocketmq/conf/namesrv.conf:/home/rocketmq/rocketmq-5.1.4/conf/namesrv.conf
+      - ./rocketmq/conf/logback_namesrv.xml:/home/rocketmq/rocketmq-5.1.4/conf/logback_namesrv.xml
+    environment:
+      JAVA_OPT_EXT: "-Duser.home=/home/rocketmq -Xms512M -Xmx512M -Xmn128m"
+    command: ["sh", "mqnamesrv", "-c", "/home/rocketmq/rocketmq-5.1.4/conf/namesrv.conf"]
+    healthcheck:
+      test: ["CMD", "sh", "-c", "ps aux | grep 'org.apache.rocketmq.namesrv.NamesrvStartup' | grep -v grep"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rocketmq-broker:
+    container_name: distribution-rocketmq-broker
+    image: apache/rocketmq:5.1.4
+    restart: unless-stopped
+    ports:
+      - "10909:10909"
+      - "10911:10911"
+    volumes:
+#      - ~/storage/distribution/rocketmq/broker/logs:/home/rocketmq/logs
+#      - ~/storage/distribution/rocketmq/broker/store:/home/rocketmq/store
+      - ./rocketmq/conf/broker.conf:/home/rocketmq/rocketmq-5.1.4/conf/broker.conf
+    environment:
+      JAVA_OPT_EXT: "-Duser.home=/home/rocketmq -Xms512M -Xmx512M -Xmn128m"
+    command: ["sh", "mqbroker", "-c", "/home/rocketmq/rocketmq-5.1.4/conf/broker.conf"]
+    depends_on:
+      rocketmq-nameserver:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "sh", "-c", "ps aux | grep 'org.apache.rocketmq.broker.BrokerStartup' | grep -v grep"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rocketmq-console:
+    container_name: distribution-rocketmq-console
+    image: styletang/rocketmq-console-ng:latest
+    restart: unless-stopped
+    ports:
+      - "48081:8080"
+    environment:
+      JAVA_OPTS: "-Drocketmq.namesrv.addr=distribution-rocketmq-nameserver:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false"
+    depends_on:
+      rocketmq-nameserver:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  server:
+    container_name: distribution-server
+    build:
+      context: ../..
+      dockerfile: devops/docker/Dockerfile-server
+    image: distribution-server
+    restart: unless-stopped
+    ports:
+      - "48080:48080"
+    volumes:
+      - ~/storage/distribution/logs:/root/logs  # 挂载日志目录
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      JAVA_OPTS: ${JAVA_OPTS:-"-Xms512m -Xmx512m -Djava.security.egd=file:/dev/urandom"}
+      ARGS:
+        --spring.datasource.dynamic.datasource.master.url=jdbc:mysql://distribution-mysql:3306/${MYSQL_DATABASE:-ruoyi-vue-pro}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true
+        --spring.datasource.dynamic.datasource.master.username=${MASTER_DATASOURCE_USERNAME:-CHANGE_ME_DB_USERNAME}
+        --spring.datasource.dynamic.datasource.master.password=${MYSQL_ROOT_PASSWORD:-CHANGE_ME_MYSQL_ROOT_PASSWORD}
+        --spring.datasource.dynamic.datasource.slave.url=jdbc:mysql://distribution-mysql:3306/${MYSQL_DATABASE:-ruoyi-vue-pro}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true
+        --spring.datasource.dynamic.datasource.slave.username=${MASTER_DATASOURCE_USERNAME:-CHANGE_ME_DB_USERNAME}
+        --spring.datasource.dynamic.datasource.slave.password=${MYSQL_ROOT_PASSWORD:-CHANGE_ME_MYSQL_ROOT_PASSWORD}
+        --spring.data.redis.host=distribution-redis
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rocketmq-broker:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:48080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  admin:
+    container_name: distribution-admin
+    build:
+      context: ../..
+      dockerfile: devops/docker/Dockerfile-admin
+      args:
+        FRONTEND_PROJECT_PATH: ${FRONTEND_PROJECT_PATH:-frontend/yudao-ui-admin-vue3}
+        NODE_ENV:
+          ENV=${NODE_ENV:-production}
+          PUBLIC_PATH=${PUBLIC_PATH:-/}
+          VUE_APP_TITLE=${VUE_APP_TITLE:-distribution管理系统}
+          VUE_APP_BASE_API=${VUE_APP_BASE_API:-/prod-api}
+          VUE_APP_APP_NAME=${VUE_APP_APP_NAME:-/}
+          VUE_APP_TENANT_ENABLE=${VUE_APP_TENANT_ENABLE:-true}
+          VUE_APP_CAPTCHA_ENABLE=${VUE_APP_CAPTCHA_ENABLE:-true}
+          VUE_APP_DOC_ENABLE=${VUE_APP_DOC_ENABLE:-true}
+          VUE_APP_BAIDU_CODE=${VUE_APP_BAIDU_CODE:-fadc1bd5db1a1d6f581df60a1807f8ab}
+    image: distribution-admin
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      server:
+        condition: service_healthy
+
+volumes:
+  mysql:
+    driver: local
+  redis:
+    driver: local
+  rocketmq-nameserver:
+    driver: local
+  rocketmq-broker:
+    driver: local
