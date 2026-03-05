@@ -105,18 +105,3 @@ cd src-claude-plus/devops/docker
 
 - 运维脚本目录：`src-claude-plus/devops`
 - Arthas 启动脚本：`src-claude-plus/devops/tools/as.sh`
-
-
-## FAQ
-
-### 1. 为什么很多配置是 `CHANGE_ME_*`？
-
-因为仓库用于开源发布，默认值都做了脱敏占位，避免泄漏真实凭据。
-
-### 2. 我只想跑后端，最小依赖是什么？
-
-MySQL + Redis + JDK17。RabbitMQ/RocketMQ 可以按业务模块按需启用。
-
-### 3. 开源前还要做什么？
-
-按 `OPEN_SOURCE_RELEASE_CHECKLIST.md` 再做一次发布前检查即可。
