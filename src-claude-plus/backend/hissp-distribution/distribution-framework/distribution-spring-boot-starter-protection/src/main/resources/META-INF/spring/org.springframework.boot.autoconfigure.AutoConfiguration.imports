@@ -1,0 +1,4 @@
+com.hissp.distribution.framework.idempotent.config.DistributionIdempotentConfiguration
+com.hissp.distribution.framework.lock4j.config.DistributionLock4jConfiguration
+com.hissp.distribution.framework.ratelimiter.config.DistributionRateLimiterConfiguration
+com.hissp.distribution.framework.signature.config.DistributionApiSignatureAutoConfiguration

@@ -1,0 +1,1 @@
+package com.hissp.distribution.module.crm.dal.mysql.permission;

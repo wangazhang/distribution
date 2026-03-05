@@ -1,0 +1,2 @@
+com.hissp.distribution.framework.datapermission.config.DistributionDataPermissionAutoConfiguration
+com.hissp.distribution.framework.datapermission.config.DistributionDeptDataPermissionAutoConfiguration

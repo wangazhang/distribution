@@ -1,0 +1,3 @@
+com.hissp.distribution.framework.mq.redis.config.DistributionRedisMQProducerAutoConfiguration
+com.hissp.distribution.framework.mq.redis.config.DistributionRedisMQConsumerAutoConfiguration
+com.hissp.distribution.framework.mq.rabbitmq.config.DistributionRabbitMQAutoConfiguration

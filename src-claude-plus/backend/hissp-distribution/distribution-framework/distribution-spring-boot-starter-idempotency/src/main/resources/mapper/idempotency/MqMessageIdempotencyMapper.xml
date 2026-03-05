@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hissp.distribution.framework.idempotency.dal.mysql.MqMessageIdempotencyMapper">
+
+    <resultMap id="BaseResultMap" type="com.hissp.distribution.framework.idempotency.dal.dataobject.MqMessageIdempotencyDO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="message_id" property="messageId" jdbcType="VARCHAR"/>
+        <result column="consumer_group" property="consumerGroup" jdbcType="VARCHAR"/>
+        <result column="topic" property="topic" jdbcType="VARCHAR"/>
+        <result column="business_key" property="businessKey" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="error_msg" property="errorMsg" jdbcType="VARCHAR"/>
+        <result column="retry_count" property="retryCount" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="deleted" property="deleted" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, message_id, consumer_group, topic, business_key, status, error_msg, retry_count,
+        create_time, update_time, deleted
+    </sql>
+
+    <select id="selectByMessageIdAndConsumerGroup" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM mq_message_idempotency
+        WHERE message_id = #{messageId}
+          AND consumer_group = #{consumerGroup}
+          AND deleted = 0
+    </select>
+
+    <select id="selectByBusinessKeyAndConsumerGroup" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM mq_message_idempotency
+        WHERE business_key = #{businessKey}
+          AND consumer_group = #{consumerGroup}
+          AND deleted = 0
+    </select>
+
+    <update id="updateStatus">
+        UPDATE mq_message_idempotency
+        SET status = #{status},
+            error_msg = #{errorMsg},
+            update_time = NOW()
+        WHERE message_id = #{messageId}
+          AND consumer_group = #{consumerGroup}
+          AND deleted = 0
+    </update>
+
+    <delete id="deleteExpiredRecords">
+        DELETE FROM mq_message_idempotency
+        WHERE create_time &lt; #{expireTime}
+          AND status IN (1, 2)
+    </delete>
+
+    <update id="incrementRetryCount">
+        UPDATE mq_message_idempotency
+        SET retry_count = retry_count + 1,
+            update_time = NOW()
+        WHERE message_id = #{messageId}
+          AND consumer_group = #{consumerGroup}
+          AND deleted = 0
+    </update>
+
+</mapper>

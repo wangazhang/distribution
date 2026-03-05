@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hissp.distribution.module.trade.dal.mysql.brokerage.BrokerageRecordMapper">
+
+    <select id="selectSummaryPriceByUserIdAndBizTypesAndCreateTimeBetween"
+            resultType="java.lang.Integer">
+        SELECT SUM(total_price)
+        FROM trade_brokerage_record
+        <where>
+            user_id = #{userId}
+            AND biz_type IN
+            <foreach collection="bizTypes" item="bizType" open="(" separator="," close=")">
+                #{bizType}
+            </foreach>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="beginTime != null">
+                AND unfreeze_time >= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                AND unfreeze_time &lt;= #{endTime}
+            </if>
+            AND deleted = FALSE
+        </where>
+    </select>
+
+    <select id="selectCountByBizIdAndStatus" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM trade_brokerage_record
+        WHERE biz_id = #{bizId} AND status = #{status} AND deleted = FALSE
+    </select>
+
+
+</mapper>

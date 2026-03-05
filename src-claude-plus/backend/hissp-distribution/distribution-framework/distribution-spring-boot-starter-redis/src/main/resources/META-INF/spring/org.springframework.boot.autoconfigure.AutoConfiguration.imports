@@ -1,0 +1,2 @@
+com.hissp.distribution.framework.redis.config.DistributionRedisAutoConfiguration
+com.hissp.distribution.framework.redis.config.DistributionCacheAutoConfiguration

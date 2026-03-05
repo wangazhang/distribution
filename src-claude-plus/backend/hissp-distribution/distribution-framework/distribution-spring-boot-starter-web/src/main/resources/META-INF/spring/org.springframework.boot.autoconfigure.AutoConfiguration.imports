@@ -1,0 +1,6 @@
+com.hissp.distribution.framework.apilog.config.DistributionApiLogAutoConfiguration
+com.hissp.distribution.framework.jackson.config.DistributionJacksonAutoConfiguration
+com.hissp.distribution.framework.swagger.config.DistributionSwaggerAutoConfiguration
+com.hissp.distribution.framework.web.config.DistributionWebAutoConfiguration
+com.hissp.distribution.framework.xss.config.DistributionXssAutoConfiguration
+com.hissp.distribution.framework.banner.config.DistributionBannerAutoConfiguration

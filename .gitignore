@@ -1,5 +1,5 @@
-# 忽略src 下的文件
-src/
+# 仅忽略仓库根目录下的 src，避免误伤后端/前端模块源码目录
+/src/
 /.idea
 ./.idea
 /src-claude-plus/backend/payDemo/

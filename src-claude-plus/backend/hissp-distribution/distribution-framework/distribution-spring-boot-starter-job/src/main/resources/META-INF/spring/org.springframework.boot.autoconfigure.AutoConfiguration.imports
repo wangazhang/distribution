@@ -1,0 +1,2 @@
+com.hissp.distribution.framework.quartz.config.DistributionQuartzAutoConfiguration
+com.hissp.distribution.framework.quartz.config.DistributionAsyncAutoConfiguration

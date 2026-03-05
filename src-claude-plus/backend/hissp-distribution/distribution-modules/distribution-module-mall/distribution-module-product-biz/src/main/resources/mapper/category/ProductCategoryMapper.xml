@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hissp.distribution.module.product.dal.mysql.category.ProductCategoryMapper">
+
+
+    <select id="getProductCategoryParentPathById" resultType="java.lang.Long">
+        WITH RECURSIVE parent_path AS (
+        SELECT
+        id,
+        parent_id,
+        name
+        FROM
+        product_category
+        WHERE
+        id IN
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        UNION ALL
+        SELECT
+        t.id,
+        t.parent_id,
+        t.name
+        FROM
+        product_category t
+        JOIN
+        parent_path pp ON t.id = pp.parent_id
+        )
+        SELECT
+        parent_id
+        FROM
+        parent_path;
+    </select>
+
+</mapper>

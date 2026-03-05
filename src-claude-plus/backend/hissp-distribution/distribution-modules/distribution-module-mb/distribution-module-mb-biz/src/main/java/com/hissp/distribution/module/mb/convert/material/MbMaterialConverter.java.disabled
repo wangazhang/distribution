@@ -1,0 +1,70 @@
+package com.hissp.distribution.module.mb.convert.material;
+
+import com.hissp.distribution.module.material.api.dto.MaterialActDTO;
+import com.hissp.distribution.module.material.api.enums.MaterialActDirectionEnum;
+import com.hissp.distribution.module.material.service.conversion.MaterialConverter;
+import com.hissp.distribution.module.product.api.spu.ProductSpuApi;
+import com.hissp.distribution.module.trade.api.brokerage.BrokerageUserApi;
+import com.hissp.distribution.module.trade.api.brokerage.dto.BrokerageUserRespDTO;
+import com.hissp.distribution.module.trade.api.order.dto.TradeOrderItemRespDTO;
+import com.hissp.distribution.module.trade.api.order.dto.TradeOrderRespDTO;
+import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * MB (医美) 物料转化器
+ * 负责将普通 MB 商品的购买，转化为上级物料的扣减等动作
+ */
+@Slf4j
+@Component
+public class MbMaterialConverter implements MaterialConverter {
+
+    @Resource
+    private ProductSpuApi productSpuApi;
+    @Resource
+    private BrokerageUserApi brokerageUserApi;
+
+    @Override
+    public boolean supports(TradeOrderItemRespDTO item) {
+        // MB 非职业类商品由该转换器处理
+        List<Long> spuIds = Collections.singletonList(item.getSpuId());
+        return productSpuApi.isMbProduct(spuIds) && !productSpuApi.isCareerProduct(spuIds);
+    }
+
+    @Override
+    public List<MaterialActDTO> convert(TradeOrderRespDTO order, TradeOrderItemRespDTO item, MaterialActDirectionEnum direction) {
+        // 1. 若购买者本身是代理，则不从上级扣减
+        BrokerageUserRespDTO brokerageUser = brokerageUserApi.getBrokerageUser(order.getUserId());
+        if (brokerageUser != null && Boolean.TRUE.equals(brokerageUser.getBrokerageEnabled())) {
+            log.info("[MbMaterialConverter][User {} is an agent, skipping upline material deduction for order item {}]", order.getUserId(), item.getId());
+            return Collections.emptyList();
+        }
+
+        // 2. 查找上级代理
+        BrokerageUserRespDTO bindUser = brokerageUserApi.getBindBrokerageUser(order.getUserId());
+        if (bindUser == null) {
+            log.info("[MbMaterialConverter][User {} has no upline agent, skipping material deduction for order item {}]", order.getUserId(), item.getId());
+            return Collections.emptyList();
+        }
+
+        // 3. 生成物料动作
+        MaterialActDirectionEnum uplineDirection = (direction == MaterialActDirectionEnum.IN) ? MaterialActDirectionEnum.OUT : MaterialActDirectionEnum.IN;
+        String bizType = (uplineDirection == MaterialActDirectionEnum.OUT) ? "MB_SUBORDINATE_BUY" : "MB_SUBORDINATE_REFUND";
+        String reason = (uplineDirection == MaterialActDirectionEnum.OUT) ? ("下级购买减少，订单号:" + order.getNo()) : ("下级退款归还，订单号:" + order.getNo());
+
+        MaterialActDTO act = new MaterialActDTO();
+        act.setUserId(bindUser.getId()); // 上级账户发生变化
+        act.setMaterialId(item.getSpuId());
+        act.setQuantity(item.getCount());
+        act.setDirection(uplineDirection);
+        act.setBizKey(String.format("mb_%d_%d", item.getId(), item.getSpuId()));
+        act.setBizType(bizType);
+        act.setReason(reason);
+
+        return Collections.singletonList(act);
+    }
+}

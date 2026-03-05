@@ -1,0 +1,3 @@
+Application Version: ${distribution.info.version}
+Spring Boot Version: ${spring-boot.version}
+

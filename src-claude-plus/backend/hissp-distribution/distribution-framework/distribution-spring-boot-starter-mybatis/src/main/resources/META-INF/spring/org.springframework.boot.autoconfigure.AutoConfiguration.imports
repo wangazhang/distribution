@@ -1,0 +1,3 @@
+com.hissp.distribution.framework.datasource.config.DistributionDataSourceAutoConfiguration
+com.hissp.distribution.framework.mybatis.config.DistributionMybatisAutoConfiguration
+com.hissp.distribution.framework.translate.config.DistributionTranslateAutoConfiguration

@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hissp.distribution.module.trade.dal.mysql.brokerage.BrokerageUserMapper">
+
+    <select id="selectSummaryPageByUserId"
+            resultType="com.hissp.distribution.module.trade.controller.app.brokerage.vo.user.AppBrokerageUserChildSummaryRespVO">
+
+        SELECT bu.id, bu.bind_user_time AS brokerageTime,
+        (SELECT SUM(price) FROM trade_brokerage_record r
+        WHERE r.user_id = bu.id AND biz_type = #{bizType} AND r.status = #{status} AND r.deleted = FALSE) AS brokeragePrice,
+        (SELECT COUNT(1) FROM trade_brokerage_record r
+        WHERE r.user_id = bu.id AND biz_type = #{bizType} AND r.status = #{status} AND r.deleted = FALSE) AS brokerageOrderCount,
+        (SELECT COUNT(1) FROM trade_brokerage_user c
+        WHERE c.bind_user_id = bu.id AND c.deleted = FALSE) AS brokerageUserCount
+        FROM trade_brokerage_user AS bu
+        <where>
+            bu.deleted = false
+            <if test="ids != null and ids.size() > 0">
+                and bu.id in
+                <foreach collection="ids" open="(" item="id" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        <choose>
+            <when test="sortingField.field == 'userCount'">
+                ORDER BY brokerageUserCount ${sortingField.order}
+            </when>
+            <when test="sortingField.field == 'orderCount'">
+                ORDER BY brokerageOrderCount ${sortingField.order}
+            </when>
+            <when test="sortingField.field == 'price'">
+                ORDER BY brokeragePrice ${sortingField.order}
+            </when>
+            <otherwise>
+                ORDER BY bu.bind_user_time DESC
+            </otherwise>
+        </choose>
+    </select>
+    <select id="getFirstBossBrokerageUser"
+            resultType="java.lang.Integer">
+        WITH RECURSIVE Hierarchy AS (
+            -- 初始查询：找到当前用户的直接上级
+            SELECT mu.id            AS current_user_id,
+                   tbu.bind_user_id AS parent_user_id,
+                   mu.level_id      AS current_level_id,
+                   1                AS level_depth -- 层级深度（直接上级为 1 层）
+            FROM trade_brokerage_user tbu
+                     JOIN member_user mu ON tbu.bind_user_id = mu.id
+            WHERE tbu.id = #{userId} -- 请替换为实际的用户 ID
+
+            UNION ALL
+
+            -- 递归查询：逐层向上查找上级的上级
+            SELECT h.current_user_id,
+                   tbu.bind_user_id  AS parent_user_id,
+                   mu.level_id       AS current_level_id,
+                   h.level_depth + 1 AS level_depth
+            FROM Hierarchy h
+                     JOIN trade_brokerage_user tbu ON h.parent_user_id = tbu.id
+                     JOIN member_user mu ON tbu.bind_user_id = mu.id)
+
+-- 最终查询：在递归结果中筛选等级为4的用户，并取第一个（层级最浅的）
+        SELECT mu.id
+        FROM Hierarchy h
+                 JOIN member_user mu ON h.parent_user_id = mu.id
+                 JOIN member_level ml ON mu.level_id = ml.id
+        WHERE ml.level = 4
+        ORDER BY h.level_depth ASC -- 按层级升序，确保先找到最近的上级
+        LIMIT 1;
+    </select>
+    <select id="countAgentUserByBindUserAndLevel" resultType="java.lang.Integer">
+        SELECT COUNT(*) AS user_count
+        FROM trade_brokerage_user tb
+                 INNER JOIN member_user mu ON tb.id = mu.id
+        WHERE tb.bind_user_id = #{userId}
+          AND mu.level_id = #{levelId}
+    </select>
+    <select id="countByBindUserIdTree" resultType="Long">
+        WITH RECURSIVE temp_tree AS (
+            SELECT id FROM trade_brokerage_user WHERE bind_user_id = #{userId} AND deleted = 0
+            UNION ALL
+            SELECT u.id FROM trade_brokerage_user u
+            JOIN temp_tree t ON u.bind_user_id = t.id
+            WHERE u.deleted = 0
+        )
+        SELECT COUNT(*) FROM temp_tree
+    </select>
+    <select id="countByBindUserIdTreeAndCreateTimeGte" resultType="Long">
+        WITH RECURSIVE temp_tree AS (
+            SELECT id, create_time FROM trade_brokerage_user WHERE bind_user_id = #{userId} AND deleted = 0
+            UNION ALL
+            SELECT u.id, u.create_time FROM trade_brokerage_user u
+            JOIN temp_tree t ON u.bind_user_id = t.id
+            WHERE u.deleted = 0
+        )
+        SELECT COUNT(*) FROM temp_tree WHERE create_time >= #{createTime}
+    </select>
+    <select id="countByBindUserIdAndBrokerageEnabled" resultType="Long">
+        SELECT COUNT(*) FROM trade_brokerage_user
+        WHERE bind_user_id = #{userId}
+        AND deleted = 0
+        <if test="enabled != null">
+            AND brokerage_enabled = #{enabled}
+        </if>
+    </select>
+    <select id="countByBindUserIdAndBrokerageEnabledAndCreateTimeGte" resultType="Long">
+        SELECT COUNT(*) FROM trade_brokerage_user u
+        LEFT JOIN member_user m ON u.id = m.id
+        WHERE u.bind_user_id = #{userId}
+        AND u.deleted = 0
+        AND u.create_time >= #{createTime}
+        <if test="enabled != null">
+            AND u.brokerage_enabled = #{enabled}
+        </if>
+        <if test="level != null and level > 0">
+            AND m.level_id = #{level}
+        </if>
+    </select>
+    <select id="countByIndirectBindUserIdAndBrokerageEnabled" resultType="Long">
+        WITH RECURSIVE descendants AS (
+            SELECT u.id, u.bind_user_id, u.brokerage_enabled, 1 AS depth
+            FROM trade_brokerage_user u
+            WHERE u.bind_user_id = #{userId} AND u.deleted = 0
+
+            UNION ALL
+
+            SELECT child.id, child.bind_user_id, child.brokerage_enabled, d.depth + 1
+            FROM trade_brokerage_user child
+            JOIN descendants d ON child.bind_user_id = d.id
+            WHERE child.deleted = 0
+        )
+        SELECT COUNT(*)
+        FROM descendants d
+        WHERE d.depth > 1
+        <if test="enabled != null">
+            AND d.brokerage_enabled = #{enabled}
+        </if>
+    </select>
+    <select id="countByIndirectBindUserIdAndBrokerageEnabledAndCreateTimeGte" resultType="Long">
+        WITH RECURSIVE descendants AS (
+            SELECT u.id, u.bind_user_id, u.create_time, u.brokerage_enabled, 1 AS depth
+            FROM trade_brokerage_user u
+            WHERE u.bind_user_id = #{userId} AND u.deleted = 0
+
+            UNION ALL
+
+            SELECT child.id, child.bind_user_id, child.create_time, child.brokerage_enabled, d.depth + 1
+            FROM trade_brokerage_user child
+            JOIN descendants d ON child.bind_user_id = d.id
+            WHERE child.deleted = 0
+        )
+        SELECT COUNT(*)
+        FROM descendants d
+        LEFT JOIN member_user m ON d.id = m.id
+        WHERE d.depth > 1
+        AND d.create_time >= #{createTime}
+        <if test="enabled != null">
+            AND d.brokerage_enabled = #{enabled}
+        </if>
+        <if test="level != null and level > 0">
+            AND m.level_id = #{level}
+        </if>
+    </select>
+    <select id="selectCommunityMembersByUserId" resultType="com.hissp.distribution.module.trade.dal.dataobject.brokerage.BrokerageUserDO">
+        WITH RECURSIVE temp_tree AS (
+            -- 初始查询：获取直接下级
+            SELECT u.id
+            FROM trade_brokerage_user u
+            WHERE u.bind_user_id = #{userId} AND u.deleted = 0
+
+            UNION ALL
+
+            -- 递归查询：获取下级的下级
+            SELECT child.id
+            FROM trade_brokerage_user child
+            JOIN temp_tree t ON child.bind_user_id = t.id
+            WHERE child.deleted = 0
+        )
+        SELECT u.*
+        FROM temp_tree t
+        JOIN trade_brokerage_user u ON t.id = u.id
+        LEFT JOIN member_user m ON u.id = m.id
+        <where>
+            <if test="level != null and level > 0">
+                AND m.level_id = #{level}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                AND (
+                    m.nickname LIKE CONCAT('%', #{nickname}, '%')
+                    OR m.mobile LIKE CONCAT('%', #{nickname}, '%')
+                    OR CAST(u.id AS CHAR) LIKE CONCAT('%', #{nickname}, '%')
+                )
+            </if>
+        </where>
+        ORDER BY u.create_time DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+    <select id="selectCommunityMemberCountByUserId" resultType="Long">
+        WITH RECURSIVE temp_tree AS (
+            -- 初始查询：获取直接下级
+            SELECT u.id
+            FROM trade_brokerage_user u
+            WHERE u.bind_user_id = #{userId} AND u.deleted = 0
+
+            UNION ALL
+
+            -- 递归查询：获取下级的下级
+            SELECT child.id
+            FROM trade_brokerage_user child
+            JOIN temp_tree t ON child.bind_user_id = t.id
+            WHERE child.deleted = 0
+        )
+        SELECT COUNT(*) 
+        FROM temp_tree t
+        LEFT JOIN member_user m ON t.id = m.id
+        <where>
+            <if test="level != null and level > 0">
+                AND m.level_id = #{level}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                AND (
+                    m.nickname LIKE CONCAT('%', #{nickname}, '%')
+                    OR m.mobile LIKE CONCAT('%', #{nickname}, '%')
+                    OR CAST(t.id AS CHAR) LIKE CONCAT('%', #{nickname}, '%')
+                )
+            </if>
+        </where>
+    </select>
+    <select id="selectDirectAgentMembersByUserId" resultType="com.hissp.distribution.module.trade.dal.dataobject.brokerage.BrokerageUserDO">
+        SELECT u.*
+        FROM trade_brokerage_user u
+        LEFT JOIN member_user m ON u.id = m.id
+        WHERE u.bind_user_id = #{userId}
+        AND u.brokerage_enabled = 1
+        AND u.deleted = 0
+        <if test="level != null and level > 0">
+            AND m.level_id = #{level}
+        </if>
+        <if test="nickname != null and nickname != ''">
+            AND (
+                m.nickname LIKE CONCAT('%', #{nickname}, '%')
+                OR m.mobile LIKE CONCAT('%', #{nickname}, '%')
+                OR CAST(u.id AS CHAR) LIKE CONCAT('%', #{nickname}, '%')
+            )
+        </if>
+        ORDER BY u.create_time DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+    <select id="selectDirectAgentMemberCountByUserId" resultType="Long">
+        SELECT COUNT(*) 
+        FROM trade_brokerage_user u
+        LEFT JOIN member_user m ON u.id = m.id
+        WHERE u.bind_user_id = #{userId} 
+        AND u.brokerage_enabled = 1
+        AND u.deleted = 0
+        <if test="level != null and level > 0">
+            AND m.level_id = #{level}
+        </if>
+        <if test="nickname != null and nickname != ''">
+            AND (
+                m.nickname LIKE CONCAT('%', #{nickname}, '%')
+                OR m.mobile LIKE CONCAT('%', #{nickname}, '%')
+                OR CAST(u.id AS CHAR) LIKE CONCAT('%', #{nickname}, '%')
+            )
+        </if>
+    </select>
+    <select id="selectIndirectAgentMembersByUserId" resultType="com.hissp.distribution.module.trade.dal.dataobject.brokerage.BrokerageUserDO">
+        WITH RECURSIVE descendants AS (
+            SELECT u.id, u.bind_user_id, 1 AS depth
+            FROM trade_brokerage_user u
+            WHERE u.bind_user_id = #{userId} AND u.deleted = 0
+
+            UNION ALL
+
+            SELECT child.id, child.bind_user_id, d.depth + 1
+            FROM trade_brokerage_user child
+            JOIN descendants d ON child.bind_user_id = d.id
+            WHERE child.deleted = 0
+        )
+        SELECT u.* 
+        FROM descendants d
+        JOIN trade_brokerage_user u ON d.id = u.id
+        LEFT JOIN member_user m ON u.id = m.id
+        WHERE d.depth > 1
+        AND u.brokerage_enabled = 1
+        <if test="level != null and level > 0">
+            AND m.level_id = #{level}
+        </if>
+        <if test="nickname != null and nickname != ''">
+            AND (
+                m.nickname LIKE CONCAT('%', #{nickname}, '%')
+                OR m.mobile LIKE CONCAT('%', #{nickname}, '%')
+                OR CAST(u.id AS CHAR) LIKE CONCAT('%', #{nickname}, '%')
+            )
+        </if>
+        ORDER BY u.create_time DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+    <select id="selectIndirectAgentMemberCountByUserId" resultType="Long">
+        WITH RECURSIVE descendants AS (
+            SELECT u.id, 1 AS depth
+            FROM trade_brokerage_user u
+            WHERE u.bind_user_id = #{userId} AND u.deleted = 0
+
+            UNION ALL
+
+            SELECT child.id, d.depth + 1
+            FROM trade_brokerage_user child
+            JOIN descendants d ON child.bind_user_id = d.id
+            WHERE child.deleted = 0
+        )
+        SELECT COUNT(*)
+        FROM descendants d
+        JOIN trade_brokerage_user u ON d.id = u.id
+        LEFT JOIN member_user m ON d.id = m.id
+        WHERE d.depth > 1
+        AND u.brokerage_enabled = 1
+        <if test="level != null and level > 0">
+            AND m.level_id = #{level}
+        </if>
+        <if test="nickname != null and nickname != ''">
+            AND (
+                m.nickname LIKE CONCAT('%', #{nickname}, '%')
+                OR m.mobile LIKE CONCAT('%', #{nickname}, '%')
+                OR CAST(d.id AS CHAR) LIKE CONCAT('%', #{nickname}, '%')
+            )
+        </if>
+    </select>
+
+    <!-- 向上查找分公司或总公司级别的上级用户 -->
+    <select id="selectCompanyLevelAncestor" resultType="com.hissp.distribution.module.trade.dal.dataobject.brokerage.BrokerageUserDO">
+        WITH RECURSIVE company_hierarchy AS (
+            -- 初始查询：从当前用户开始
+            SELECT bu.id, bu.bind_user_id, mu.level_id, ml.name as level_name, 1 as depth
+            FROM trade_brokerage_user bu
+            LEFT JOIN member_user mu ON bu.id = mu.id
+            LEFT JOIN member_level ml ON mu.level_id = ml.id
+            WHERE bu.id = #{userId} AND bu.deleted = 0
+
+            UNION ALL
+
+            -- 递归查询：向上查找上级
+            SELECT bu.id, bu.bind_user_id, mu.level_id, ml.name as level_name, ch.depth + 1
+            FROM trade_brokerage_user bu
+            LEFT JOIN member_user mu ON bu.id = mu.id
+            LEFT JOIN member_level ml ON mu.level_id = ml.id
+            INNER JOIN company_hierarchy ch ON bu.id = ch.bind_user_id
+            WHERE bu.deleted = 0 AND ch.depth &lt; 10 -- 防止无限递归
+        )
+        SELECT bu.*
+        FROM company_hierarchy ch
+        INNER JOIN trade_brokerage_user bu ON ch.id = bu.id
+        WHERE ch.level_name IN ('总公司', '分公司')
+        ORDER BY ch.depth ASC
+        LIMIT 1
+    </select>
+
+    <!-- 获取整条链路的顶层用户 -->
+    <select id="selectTopAncestor" resultType="com.hissp.distribution.module.trade.dal.dataobject.brokerage.BrokerageUserDO">
+        WITH RECURSIVE ancestor_chain AS (
+            -- 初始节点：当前用户
+            SELECT bu.id, bu.bind_user_id, 1 AS depth
+            FROM trade_brokerage_user bu
+            WHERE bu.id = #{userId} AND bu.deleted = 0
+
+            UNION ALL
+
+            -- 向上递归查找上级
+            SELECT parent.id, parent.bind_user_id, ancestor_chain.depth + 1
+            FROM trade_brokerage_user parent
+            INNER JOIN ancestor_chain ON ancestor_chain.bind_user_id = parent.id
+            WHERE parent.deleted = 0
+              AND ancestor_chain.depth &lt; 50 -- 防止无限递归
+        )
+        SELECT bu.*
+        FROM ancestor_chain ac
+                 INNER JOIN trade_brokerage_user bu ON ac.id = bu.id
+        ORDER BY ac.depth DESC
+        LIMIT 1
+    </select>
+
+    <!-- 获取指定用户的所有下级用户（用于构建团队树） -->
+    <select id="selectTeamMembersByRootUserId" resultType="com.hissp.distribution.module.trade.dal.dataobject.brokerage.BrokerageUserDO">
+        WITH RECURSIVE team_tree AS (
+            -- 初始查询：根用户
+            SELECT bu.*, 1 as level_depth
+            FROM trade_brokerage_user bu
+            WHERE bu.id = #{rootUserId} AND bu.deleted = 0
+
+            UNION ALL
+
+            -- 递归查询：获取所有下级，但遇到分公司时停止该分支
+            SELECT bu.*, tt.level_depth + 1
+            FROM trade_brokerage_user bu
+            INNER JOIN team_tree tt ON bu.bind_user_id = tt.id
+            LEFT JOIN member_user mu ON bu.id = mu.id
+            LEFT JOIN member_level ml ON mu.level_id = ml.id
+            WHERE bu.deleted = 0
+            AND tt.level_depth &lt; 10 -- 防止无限递归
+            AND (ml.name IS NULL OR ml.name NOT IN ('分公司', '总公司') OR tt.level_depth = 1) -- 边界控制：遇到分公司时停止，除非是第一层
+        )
+        SELECT bu.*
+        FROM team_tree tt
+        INNER JOIN trade_brokerage_user bu ON tt.id = bu.id
+        ORDER BY tt.level_depth, bu.create_time
+    </select>
+
+    <!-- 获取指定用户的直接下级人数 -->
+    <select id="selectDirectChildrenCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM trade_brokerage_user
+        WHERE bind_user_id = #{userId}
+        AND deleted = 0
+    </select>
+
+    <!-- 批量获取用户的直接下级人数 -->
+    <select id="selectDirectChildrenCountBatch" resultType="map">
+        SELECT bind_user_id as userId, COUNT(*) as childCount
+        FROM trade_brokerage_user
+        WHERE bind_user_id IN
+        <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+        AND deleted = 0
+        GROUP BY bind_user_id
+    </select>
+</mapper>

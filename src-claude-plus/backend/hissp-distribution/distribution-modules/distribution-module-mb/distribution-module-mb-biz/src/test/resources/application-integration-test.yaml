@@ -1,0 +1,156 @@
+spring:
+  main:
+    lazy-initialization: false # 集成测试，关闭懒加载
+    banner-mode: off # 禁用 Banner
+
+--- #################### 数据库相关配置 ####################
+
+spring:
+  # 数据源配置项 - 集成测试使用真实数据库
+  datasource:
+    name: distribution-integration-test
+    url: jdbc:mysql://localhost:3306/distribution_test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai&allowMultiQueries=true&nullCatalogMeansCurrent=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456}
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+
+  # Redis 配置
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      database: 1 # 使用数据库1，避免与开发环境冲突
+      password: ${REDIS_PASSWORD:}
+      timeout: 6000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 0
+
+mybatis-plus:
+  type-aliases-package: ${distribution.info.base-package}.module.*.dal.dataobject
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false # 集成测试关闭缓存
+
+--- #################### 服务配置 ####################
+
+server:
+  port: 0 # 随机端口
+
+--- #################### 日志配置 ####################
+
+logging:
+  level:
+    com.hissp.distribution: DEBUG
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.mybatis: DEBUG
+
+--- #################### 芋道相关配置 ####################
+
+distribution:
+  info:
+    base-package: com.hissp.distribution
+  security:
+    mock-enable: false # 集成测试，关闭 Mock 模式
+  xss:
+    enable: true
+  access-log:
+    enable: true
+  demo: false
+
+--- #################### 真实服务连接配置 ####################
+
+# 真实服务连接配置
+test:
+  real-service:
+    enabled: ${TEST_REAL_SERVICE_ENABLED:false}
+    base-url: ${TEST_REAL_SERVICE_URL:http://localhost:8080}
+    auth:
+      username: ${TEST_AUTH_USERNAME:test_user}
+      password: ${TEST_AUTH_PASSWORD:test_password}
+      token: ${TEST_AUTH_TOKEN:}
+    timeout:
+      connect: ${TEST_CONNECT_TIMEOUT:5000}
+      read: ${TEST_READ_TIMEOUT:10000}
+    retry:
+      max-attempts: 3
+      delay: 1000
+
+--- #################### 测试数据配置 ####################
+
+# 测试数据配置
+test-data:
+  # 是否在测试前清理数据
+  clean-before-test: true
+  # 是否在测试后清理数据  
+  clean-after-test: true
+  # 测试用户配置
+  test-users:
+    - id: 10001
+      nickname: "测试用户1"
+      mobile: "13800138001"
+      level: 1
+    - id: 10002
+      nickname: "测试用户2"
+      mobile: "13800138002"
+      level: 2
+  # 测试物料配置
+  test-materials:
+    - id: 1001
+      name: "测试物料A"
+      price: 1000
+      unit: "个"
+    - id: 1002
+      name: "测试物料B"
+      price: 2000
+      unit: "盒"
+
+--- #################### 性能测试配置 ####################
+
+# 性能测试配置
+performance-test:
+  # 并发用户数
+  concurrent-users: 10
+  # 测试持续时间（秒）
+  duration: 60
+  # 请求间隔（毫秒）
+  request-interval: 100
+  # 性能阈值
+  thresholds:
+    # 平均响应时间阈值（毫秒）
+    avg-response-time: 500
+    # 95%响应时间阈值（毫秒）
+    p95-response-time: 1000
+    # 错误率阈值（百分比）
+    error-rate: 1.0
+
+--- #################### 监控配置 ####################
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true

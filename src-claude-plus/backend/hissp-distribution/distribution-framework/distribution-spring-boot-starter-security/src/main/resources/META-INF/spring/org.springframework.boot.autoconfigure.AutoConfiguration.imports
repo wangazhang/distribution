@@ -1,0 +1,3 @@
+com.hissp.distribution.framework.security.config.DistributionSecurityAutoConfiguration
+com.hissp.distribution.framework.security.config.DistributionWebSecurityConfigurerAdapter
+com.hissp.distribution.framework.operatelog.config.DistributionOperateLogConfiguration
