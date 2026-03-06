@@ -18,6 +18,26 @@
 - 前端分账功能（结算规则、分账发起、状态追踪）：`src-claude-plus/docs/features/frontend-profit-sharing.md`
 - 前端自定义装修功能（页面搭建、组件配置、发布流程）：`src-claude-plus/docs/features/frontend-page-decoration.md`
 
+## 界面预览
+
+### 登录页
+
+![登录页](src-claude-plus/docs/images/readme/login-page.jpg)
+
+### 首页
+
+![首页](src-claude-plus/docs/images/readme/home-page.jpg)
+
+### 分销配置
+
+![分销配置-策略总览](src-claude-plus/docs/images/readme/distribution-config-1.png)
+![分销配置-编辑策略](src-claude-plus/docs/images/readme/distribution-config-2.png)
+![分销配置-编辑规则](src-claude-plus/docs/images/readme/distribution-config-3.png)
+
+### 装修
+
+![装修](src-claude-plus/docs/images/readme/decoration-page.png)
+
 ## 仓库结构
 
 ```text
