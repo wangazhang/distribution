@@ -36,7 +36,9 @@
 
 ### 装修
 
-![装修](src-claude-plus/docs/images/readme/decoration-page.png)
+![装修-页面列表](src-claude-plus/docs/images/readme/decoration-page.png)
+![装修模板-首页总览](src-claude-plus/docs/images/readme/decoration-template-homepage.png)
+![装修模板-首页预览](src-claude-plus/docs/images/readme/decoration-template-home-preview.png)
 
 ## 仓库结构
 
